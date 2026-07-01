@@ -1,8 +1,13 @@
-O corte acontece porque o container do slide usa altura fixa (`h-[55vh]`) com `object-cover`. Na sua tela (785px), 55vh ≈ 432px de altura por ~1373px de largura — proporção ~3.2:1, bem mais larga que 16:9, então o `object-cover` preenche a largura cortando topo/fundo da imagem.
+Vou ajustar o carrossel para ficar menor e com uma proporção fixa de banner largo, evitando aquele efeito de ocupar quase a tela inteira.
 
-Correção em `src/components/site/Hero.tsx` (slide de imagem, linhas 90-97):
-- Trocar o container para `aspect-video w-full` (força proporção 16:9 idêntica à da imagem), removendo `h-[55vh] min-h-[320px] max-h-[640px]`.
-- Manter `object-cover` — como container e imagem têm a mesma proporção, não haverá corte visível.
-- Remover o `max-h-[640px]` do `Carousel`, `CarouselContent` e `CarouselItem` para não voltar a espremer a altura (o `aspect-video` já controla o tamanho).
+Plano:
+1. Reduzir a altura dos slides de imagem no desktop para cerca de 480 px.
+2. Trocar o formato atual `16:9`, que deixa o banner alto demais em telas largas, por uma proporção mais horizontal de aproximadamente `2.86:1`.
+3. Manter a imagem preenchendo o espaço sem faixas laterais quando a arte estiver nesse mesmo formato.
+4. Definir para você o tamanho correto das artes:
+   - Tamanho exato na tela atual: `1373 x 480 px`
+   - Tamanho recomendado para criar com qualidade: `1920 x 670 px`
+   - Proporção: aproximadamente `2.86:1`
+5. Em telas menores, deixar o carrossel responsivo para não ficar exagerado no mobile.
 
-Efeito: em telas até ~1138px de largura, o banner aparece inteiro sem cortes e sem faixas azuis. Em telas maiores, ele escala junto (ex: 1373×772). Se quiser limitar a altura máxima em telas grandes, usamos `max-w-[1138px] mx-auto` no container do slide para travar em 1138×640.
+Resultado esperado: o carrossel fica mais baixo, a arte encaixa melhor sem cortar em cima/baixo quando feita no formato correto, e você passa a ter uma medida clara para produzir os próximos banners.
