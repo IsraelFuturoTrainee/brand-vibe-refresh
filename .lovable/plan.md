@@ -1,23 +1,15 @@
-Plano para corrigir o Hero Carousel no mobile:
+## Substituir placeholder "Armazém refrigerado" pela foto do evento ACELERA tudobom
 
-1. Preservar o desktop exatamente como está
-- Manter as classes `sm:*` atuais que definem a proporção/altura do carrossel no desktop.
-- Não alterar o comportamento visual desktop.
+A foto enviada (evento ACELERA tudobom com toda a equipe) será colocada no card selecionado da galeria da seção Estrutura, no lugar do placeholder "Armazém refrigerado".
 
-2. Corrigir a causa do espaço azul no celular
-- No mobile, o Embla Carousel está usando a altura do slide mais alto, que é o primeiro slide de texto com `min-h-[420px]` e `py-12`.
-- Vou remover essa altura fixa somente no mobile e deixar altura fixa apenas a partir de `sm:`.
+### Passos
 
-3. Padronizar os slides no mobile sem cortar imagem
-- Para slides de imagem no mobile: `height: auto`, `object-fit: contain`, `width: 100%`, `height: auto`.
-- Sem `object-cover` no mobile.
-- Sem `aspect-ratio`, `min-height` ou `max-height` antes de `sm:`.
+1. Fazer upload da imagem via `lovable-assets` e gerar `src/assets/equipe-acelera-tudobom.jpg.asset.json` a partir de `/mnt/user-uploads/WhatsApp_Image_2026-07-01_at_19.28.47.jpeg`.
+2. Em `src/components/site/Estrutura.tsx`:
+   - Importar o novo asset.
+   - Adicionar um campo opcional `image` ao item "Armazém refrigerado" no array `GALLERY` (mantendo os demais como placeholders).
+   - Ajustar o `.map` para, quando `img.image` existir, renderizar um `<img>` com `object-cover` preenchendo o card e remover os atributos `data-lov-image-placeholder` daquele card. O `label` continua aparecendo como pill sobreposta no canto inferior.
 
-4. Ajustar controles no mobile
-- Setas posicionadas sobre a área da imagem, centralizadas verticalmente no banner real, não no espaço vazio.
-- Dots logo abaixo do banner no mobile, com margem pequena.
-- Desktop continua com dots sobrepostos na parte inferior.
+### Observação
 
-5. Validar no preview mobile
-- Medir novamente a altura do `#top`, do viewport do carrossel, da imagem e dos dots.
-- Confirmar que não há bloco azul-marinho vazio sobrando abaixo da imagem e que a arte aparece inteira.
+A foto retrata a equipe em um evento corporativo, não um armazém refrigerado. Se preferir, posso movê-la para a seção "Equipe" logo abaixo — mas por padrão vou seguir sua instrução e colocá-la exatamente no espaço selecionado.
