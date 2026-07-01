@@ -54,14 +54,22 @@ const BRAND_LOGOS: Record<string, string> = {
   Nestlé: nestleLogo.url,
 };
 
-function LogoTile({ label, featured = false }: { label: string; featured?: boolean }) {
+function LogoTile({
+  label,
+  featured = false,
+  imageClass = "",
+}: {
+  label: string;
+  featured?: boolean;
+  imageClass?: string;
+}) {
   if (featured) {
     return (
       <div className="flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-card p-4 text-center ring-2 ring-brand-lime transition-all hover:-translate-y-0.5 hover:shadow-md">
         <img
           src={ebomLogo}
           alt={label}
-          className="max-h-full max-w-full object-contain"
+          className={`max-h-full max-w-full object-contain ${imageClass}`}
         />
       </div>
     );
@@ -73,7 +81,7 @@ function LogoTile({ label, featured = false }: { label: string; featured?: boole
         <img
           src={logoUrl}
           alt={label}
-          className="max-h-full max-w-full object-contain"
+          className={`max-h-full max-w-full object-contain ${imageClass}`}
         />
       ) : (
         <span className="font-display text-sm font-semibold text-muted-foreground">
@@ -83,6 +91,7 @@ function LogoTile({ label, featured = false }: { label: string; featured?: boole
     </div>
   );
 }
+
 
 function ImportadaCard({ item }: { item: Importada }) {
   return (
