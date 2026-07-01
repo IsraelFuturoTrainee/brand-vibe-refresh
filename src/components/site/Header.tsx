@@ -1,0 +1,80 @@
+import { useState } from "react";
+import { Menu } from "lucide-react";
+import { Logo } from "./Logo";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+
+const NAV = [
+  { href: "#sobre", label: "Sobre" },
+  { href: "#estrutura", label: "Estrutura" },
+  { href: "#atuacao", label: "Atuação" },
+  { href: "#marcas", label: "Marcas" },
+  { href: "#contato", label: "Contato" },
+];
+
+export function Header() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 bg-brand-navy text-brand-navy-foreground shadow-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6 lg:px-8">
+        <a href="#top" className="flex items-center gap-2 shrink-0">
+          <div className="rounded-lg bg-white/5 px-2 py-1">
+            <Logo className="h-8 w-auto sm:h-10" />
+          </div>
+        </a>
+
+        <nav className="hidden items-center gap-8 md:flex">
+          {NAV.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="text-sm font-semibold uppercase tracking-wide text-white/90 transition-colors hover:text-brand-lime"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="hidden md:block">
+          <Button
+            asChild
+            className="bg-brand-lime text-brand-lime-foreground font-bold hover:bg-brand-lime/90"
+          >
+            <a href="#contato">Fale Conosco</a>
+          </Button>
+        </div>
+
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-brand-lime">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="bg-brand-navy text-brand-navy-foreground border-brand-navy">
+            <SheetTitle className="text-white">Menu</SheetTitle>
+            <nav className="mt-8 flex flex-col gap-1">
+              {NAV.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-md px-3 py-3 text-base font-semibold text-white/90 transition-colors hover:bg-white/10 hover:text-brand-lime"
+                >
+                  {item.label}
+                </a>
+              ))}
+              <Button
+                asChild
+                className="mt-4 bg-brand-lime text-brand-lime-foreground font-bold hover:bg-brand-lime/90"
+                onClick={() => setOpen(false)}
+              >
+                <a href="#contato">Fale Conosco</a>
+              </Button>
+            </nav>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </header>
+  );
+}
