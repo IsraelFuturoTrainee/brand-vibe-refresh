@@ -82,21 +82,21 @@ export function Hero() {
       <Carousel
         setApi={setApi}
         opts={{ loop: true }}
-        className="relative"
+        className="relative mx-auto max-h-[640px] w-full overflow-hidden"
       >
-        <CarouselContent className="ml-0">
+        <CarouselContent className="ml-0 max-h-[640px]">
           {slides.map((slide, i) => (
-            <CarouselItem key={i} className="pl-0">
+            <CarouselItem key={i} className="pl-0 max-h-[640px]">
               {slide.kind === "image" ? (
-                <div className="relative w-full aspect-video">
+                <div className="relative h-[55vh] min-h-[320px] w-full max-h-[640px]">
                   <img
                     src={slide.image}
                     alt={slide.alt}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="h-full w-full object-cover object-center"
                   />
                 </div>
               ) : (
-                <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
+                <div className="relative h-[55vh] min-h-[420px] max-h-[640px] w-full overflow-hidden">
                   <>
                     <div
                       data-lov-image-placeholder
@@ -112,7 +112,7 @@ export function Hero() {
                         <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-lime/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-lime ring-1 ring-brand-lime/30">
                           {slide.eyebrow}
                         </span>
-                        <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+                        <h1 className="mt-6 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
                           {slide.title}{" "}
                           <span className="text-brand-lime">{slide.highlight}</span>.
                         </h1>
@@ -142,7 +142,7 @@ export function Hero() {
         <CarouselPrevious className="left-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:left-6" />
         <CarouselNext className="right-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:right-6" />
 
-        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -158,3 +158,4 @@ export function Hero() {
     </section>
   );
 }
+
