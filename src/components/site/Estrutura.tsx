@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { Truck, ShieldCheck, Route, ThermometerSnowflake } from "lucide-react";
+import equipeAcelera from "@/assets/equipe-acelera-tudobom.jpg.asset.json";
 
-const GALLERY = [
+const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   {
     prompt: "Aerial view of a modern food distribution warehouse in Brazil with loading docks",
     label: "Sede administrativa",
@@ -9,6 +10,7 @@ const GALLERY = [
   {
     prompt: "Interior of a large refrigerated warehouse with pallet racking full of food products",
     label: "Armazém refrigerado",
+    image: equipeAcelera.url,
   },
   {
     prompt: "Forklift operator moving pallets inside a clean industrial food warehouse",
@@ -69,10 +71,7 @@ export function Estrutura() {
           {GALLERY.map((img, i) => (
             <div
               key={img.label}
-              data-lov-image-placeholder
-              data-prompt={img.prompt}
-              data-width="960"
-              data-height="720"
+              {...(img.image ? {} : { "data-lov-image-placeholder": true, "data-prompt": img.prompt, "data-width": "960", "data-height": "720" })}
               className={`group relative overflow-hidden rounded-2xl bg-primary/10 ring-1 ring-border ${
                 i === 0
                   ? "lg:col-span-3 lg:row-span-2 aspect-[4/5] lg:aspect-auto"
@@ -81,11 +80,24 @@ export function Estrutura() {
                     : "lg:col-span-2 aspect-[4/3]"
               }`}
             >
-              <div className="flex h-full items-center justify-center">
-                <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary shadow">
-                  {img.label}
-                </span>
-              </div>
+              {img.image ? (
+                <>
+                  <img
+                    src={img.image}
+                    alt={img.label}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary shadow">
+                    {img.label}
+                  </span>
+                </>
+              ) : (
+                <div className="flex h-full items-center justify-center">
+                  <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary shadow">
+                    {img.label}
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>
