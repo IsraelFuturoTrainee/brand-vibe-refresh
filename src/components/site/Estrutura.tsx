@@ -68,38 +68,46 @@ export function Estrutura() {
 
         {/* Gallery */}
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
-          {GALLERY.map((img, i) => (
-            <div
-              key={img.label}
-              {...(img.image ? {} : { "data-lov-image-placeholder": true, "data-prompt": img.prompt, "data-width": "960", "data-height": "720" })}
-              className={`group relative overflow-hidden rounded-2xl bg-primary/10 ring-1 ring-border ${
-                i === 0
-                  ? "lg:col-span-3 lg:row-span-2 aspect-[4/5] lg:aspect-auto"
-                  : i === 1
-                    ? "lg:col-span-3 aspect-[4/3]"
-                    : "lg:col-span-2 aspect-[4/3]"
-              }`}
-            >
-              {img.image ? (
-                <>
-                  <img
-                    src={img.image}
-                    alt={img.label}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary shadow">
-                    {img.label}
-                  </span>
-                </>
-              ) : (
-                <div className="flex h-full items-center justify-center">
-                  <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary shadow">
-                    {img.label}
-                  </span>
-                </div>
-              )}
-            </div>
-          ))}
+          {GALLERY.map((img, i) => {
+            const hasImage = !!img.image;
+            const layoutClass =
+              i === 0
+                ? "lg:col-span-3 lg:row-span-2"
+                : i === 1
+                  ? "lg:col-span-3"
+                  : "lg:col-span-2";
+            const aspectClass = hasImage
+              ? ""
+              : i === 0
+                ? "aspect-[4/5] lg:aspect-auto"
+                : "aspect-[4/3]";
+            return (
+              <div
+                key={img.label}
+                {...(hasImage ? {} : { "data-lov-image-placeholder": true, "data-prompt": img.prompt, "data-width": "960", "data-height": "720" })}
+                className={`group relative overflow-hidden rounded-2xl bg-primary/10 ring-1 ring-border ${layoutClass} ${aspectClass}`}
+              >
+                {hasImage ? (
+                  <>
+                    <img
+                      src={img.image}
+                      alt={img.label}
+                      className="block h-auto w-full object-contain object-center"
+                    />
+                    <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary shadow">
+                      {img.label}
+                    </span>
+                  </>
+                ) : (
+                  <div className="flex h-full items-center justify-center">
+                    <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary shadow">
+                      {img.label}
+                    </span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Equipe */}
