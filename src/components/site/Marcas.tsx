@@ -1,3 +1,19 @@
+import ebomLogo from "@/assets/brand-ebom.png.asset.json";
+import sadiaLogo from "@/assets/brand-sadia.png.asset.json";
+import perdigaoLogo from "@/assets/brand-perdigao.png.asset.json";
+import nestleLogo from "@/assets/brand-nestle.png.asset.json";
+import brfLogo from "@/assets/brand-brf.png.asset.json";
+import bungeLogo from "@/assets/brand-bunge.png.asset.json";
+import andorinhaLogo from "@/assets/brand-andorinha.png.asset.json";
+import maguaryLogo from "@/assets/brand-maguary.png.asset.json";
+import dafrutaLogo from "@/assets/brand-dafruta.png.asset.json";
+import donabiaLogo from "@/assets/brand-donabia.png.asset.json";
+import rivieraLogo from "@/assets/brand-riviera.png.asset.json";
+import kidelliLogo from "@/assets/brand-kidelli.png.asset.json";
+import qualyLogo from "@/assets/brand-qualy.png.asset.json";
+import sofiteliLogo from "@/assets/brand-sofiteli.png.asset.json";
+import salsarettiLogo from "@/assets/brand-salsaretti.png.asset.json";
+
 type Importada = { country: string; code: string; segment: string };
 
 const IMPORTADAS: Importada[] = [
@@ -12,53 +28,39 @@ const IMPORTADAS: Importada[] = [
   { country: "Uruguai", code: "uy", segment: "Carnes Bovinas" },
 ];
 
-const DISTRIBUICAO = [
-  "Sadia",
-  "Perdigão",
-  "Nestlé",
-  "BRF",
-  "Bunge",
-  "Andorinha",
-  "Maguary",
-  "daFruta",
-  "Dona Bia",
-  "Riviera",
-  "Kidelli",
-  "Qualy",
-  "Sofiteli",
-  "Salsaretti",
-  "Etti",
-  "Cajamar",
-  "Natural One",
-  "Nature Palm",
-  "Classe A",
-  "Ecomar",
-  "Nat",
-  "Panasonic",
-  "Schultz",
-  "Brown-Forman",
-  "McCain",
-  "Nucos",
-  "Terra Vega",
-  "Suacui",
+type BrandLogo = { name: string; src: string; featured?: boolean };
+
+const DISTRIBUICAO: BrandLogo[] = [
+  { name: "ébom", src: ebomLogo.url, featured: true },
+  { name: "Sadia", src: sadiaLogo.url },
+  { name: "Perdigão", src: perdigaoLogo.url },
+  { name: "Nestlé", src: nestleLogo.url },
+  { name: "BRF", src: brfLogo.url },
+  { name: "Bunge", src: bungeLogo.url },
+  { name: "Andorinha", src: andorinhaLogo.url },
+  { name: "Maguary", src: maguaryLogo.url },
+  { name: "daFruta", src: dafrutaLogo.url },
+  { name: "Dona Bia", src: donabiaLogo.url },
+  { name: "Riviera", src: rivieraLogo.url },
+  { name: "Kidelli", src: kidelliLogo.url },
+  { name: "Qualy", src: qualyLogo.url },
+  { name: "Sofiteli", src: sofiteliLogo.url },
+  { name: "Salsaretti", src: salsarettiLogo.url },
 ];
 
-function LogoTile({ label, featured = false }: { label: string; featured?: boolean }) {
+function LogoTile({ item }: { item: BrandLogo }) {
   return (
     <div
-      className={`flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-card p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md ${
-        featured ? "ring-2 ring-brand-lime" : ""
+      className={`flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md ${
+        item.featured ? "ring-2 ring-brand-lime" : ""
       }`}
     >
-      <span
-        className={`font-display font-bold ${
-          featured
-            ? "text-2xl lowercase text-primary"
-            : "text-sm font-semibold text-muted-foreground"
-        }`}
-      >
-        {label}
-      </span>
+      <img
+        src={item.src}
+        alt={`Logo ${item.name}`}
+        loading="lazy"
+        className="max-h-full max-w-full object-contain"
+      />
     </div>
   );
 }
@@ -106,7 +108,6 @@ export function Marcas() {
           ))}
         </div>
 
-
         {/* Distribuição */}
         <div className="mt-20 max-w-3xl">
           <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
@@ -123,9 +124,8 @@ export function Marcas() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          <LogoTile label="ébom" featured />
-          {DISTRIBUICAO.map((label) => (
-            <LogoTile key={label} label={label} />
+          {DISTRIBUICAO.map((item) => (
+            <LogoTile key={item.name} item={item} />
           ))}
         </div>
       </div>
