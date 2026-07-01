@@ -1,14 +1,25 @@
-Vou ajustar o carrossel para priorizar sempre a imagem inteira, sem cortes, em celular e desktop.
+## Problema
+No celular, a arte do carrossel principal não fica centralizada/visualmente equilibrada. A proporção fixa `aspect-[2.85/1]` com `object-contain` faz o banner ficar muito largo e baixo, e o conteúdo principal (geralmente posicionado à direita, como no banner do Senna) pode aparecer pequeno ou deslocado.
 
-Plano:
-1. Trocar os slides de imagem de `object-cover` para `object-contain`, que nunca corta a arte.
-2. Padronizar uma área fixa/responsiva para o banner com proporção 16:9 e altura controlada, evitando voltar a ocupar a tela inteira.
-3. Usar fundo azul-marinho apenas como preenchimento quando a tela não tiver exatamente a mesma proporção da arte.
-4. Manter os controles do carrossel, bullets e autoplay como estão.
-5. Informar o tamanho recomendado definitivo para suas artes após o ajuste: proporção 16:9, idealmente 1920 × 1080 px ou 1138 × 640 px.
+## Solução
+Ajustar o componente `src/components/site/Hero.tsx` para tratar a imagem de forma responsiva, preservando o conteúdo importante em qualquer tela:
 
-Resultado esperado:
-- A imagem aparece 100% inteira.
-- Não corta em cima, embaixo ou laterais.
-- No celular ela reduz proporcionalmente.
-- Se sobrar espaço, aparece preenchimento do fundo em vez de cortar a arte.
+1. **Proporções responsivas no container do slide de imagem:**
+   - Mobile: `aspect-[16/9]` ou `aspect-[4/3]` para dar mais altura à arte no celular.
+   - Tablet/desktop: `aspect-[2.85/1]` para manter o formato wide padrão do site original.
+
+2. **Ajuste de `object-fit` e `object-position` por breakpoint:**
+   - Mobile: usar `object-cover` com `object-right` para focar o lado direito da arte (produto/texto) e evitar faixas laterais azuis.
+   - Desktop: manter `object-contain` com fundo borrado da própria imagem para exibir a arte completa sem cortes.
+
+3. **Manter altura máxima:**
+   - Garantir `max-h-[480px]` em todos os breakpoints para não repetir o problema anterior de banner gigante.
+
+4. **Fallback visual:**
+   - Preservar o fundo borrado (`blur-xl`) e a cor de base `bg-brand-navy` para que, mesmo com variações de proporção, o espaço ao redor da imagem fique harmonioso.
+
+## Arquivos envolvidos
+- `src/components/site/Hero.tsx`
+
+## Resultado esperado
+A arte do carrossel ficará devidamente centralizada e com o conteúdo principal visível no celular, sem cortes estranhos e mantendo o design wide no desktop.
