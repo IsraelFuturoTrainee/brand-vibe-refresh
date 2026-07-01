@@ -83,21 +83,22 @@ export function Hero() {
           {slides.map((slide, i) => (
             <CarouselItem key={i} className="pl-0">
               {slide.kind === "image" ? (
-                <div className="relative aspect-[2.85/1] max-h-[480px] min-h-[220px] w-full overflow-hidden bg-brand-navy sm:min-h-[300px]">
+                <div className="relative w-full overflow-hidden bg-brand-navy sm:aspect-[2.85/1] sm:max-h-[480px] sm:min-h-[300px]">
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 scale-105 bg-cover bg-center blur-xl opacity-65"
+                    className="absolute inset-0 hidden scale-105 bg-cover bg-center blur-xl opacity-65 sm:block"
                     style={{ backgroundImage: `url(${slide.image})` }}
                   />
-                  <div className="absolute inset-0 bg-brand-navy/20" />
+                  <div className="absolute inset-0 hidden bg-brand-navy/20 sm:block" />
                   <img
                     src={slide.image}
                     alt={slide.alt}
-                    className="relative z-10 h-full w-full object-contain object-center"
+                    className="relative z-10 block h-auto w-full sm:h-full sm:object-contain sm:object-center"
                   />
                 </div>
               ) : (
-                <div className="relative h-[35vw] min-h-[360px] max-h-[480px] w-full overflow-hidden">
+                <div className="relative min-h-[420px] w-full overflow-hidden py-12 sm:h-[35vw] sm:min-h-[360px] sm:max-h-[480px] sm:py-0">
+
                   <>
                     <div
                       data-lov-image-placeholder
@@ -143,7 +144,7 @@ export function Hero() {
         <CarouselPrevious className="left-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:left-6" />
         <CarouselNext className="right-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:right-6" />
 
-        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+        <div className="mt-3 mb-4 flex justify-center gap-2 sm:absolute sm:bottom-4 sm:left-1/2 sm:mt-0 sm:mb-0 sm:-translate-x-1/2">
           {slides.map((_, i) => (
             <button
               key={i}
