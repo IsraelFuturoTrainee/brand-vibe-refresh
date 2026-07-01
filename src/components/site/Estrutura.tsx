@@ -69,43 +69,30 @@ export function Estrutura() {
         </div>
 
         {/* Gallery */}
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {GALLERY.map((img, i) => {
             const hasImage = !!img.image;
-            const layoutClass =
-              i === 0
-                ? "lg:col-span-3 lg:row-span-2"
-                : i === 1
-                  ? "lg:col-span-3"
-                  : "lg:col-span-2";
-            const aspectClass = hasImage
-              ? ""
-              : i === 0
-                ? "aspect-[4/5] lg:aspect-auto"
-                : "aspect-[4/3]";
             return (
               <div
                 key={img.label}
                 {...(hasImage ? {} : { "data-lov-image-placeholder": true, "data-prompt": img.prompt, "data-width": "960", "data-height": "720" })}
-                className={`group relative overflow-hidden rounded-2xl bg-primary/10 ring-1 ring-border ${layoutClass} ${aspectClass}`}
+                className="group relative flex h-[260px] w-full items-center justify-center overflow-hidden rounded-2xl bg-muted ring-1 ring-border sm:h-[320px]"
               >
                 {hasImage ? (
                   <>
                     <img
                       src={img.image}
                       alt={img.label}
-                      className="block h-auto w-full object-contain object-center"
+                      className="block h-full w-full object-contain object-center"
                     />
                     <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary shadow">
                       {img.label}
                     </span>
                   </>
                 ) : (
-                  <div className="flex h-full items-center justify-center">
-                    <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-primary shadow">
-                      {img.label}
-                    </span>
-                  </div>
+                  <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary shadow">
+                    {img.label}
+                  </span>
                 )}
               </div>
             );
