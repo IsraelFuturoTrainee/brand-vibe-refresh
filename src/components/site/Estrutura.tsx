@@ -141,7 +141,9 @@ export function Estrutura() {
                   <Icon className="h-6 w-6" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <div className="text-3xl font-extrabold text-primary">{n}</div>
+                  <div className={`font-extrabold text-primary ${n.includes("•") ? "text-base sm:text-lg leading-tight" : "text-3xl"}`}>
+                    {n}
+                  </div>
                   <div className="mt-1 text-sm font-medium text-muted-foreground">{label}</div>
                 </div>
               </Card>
