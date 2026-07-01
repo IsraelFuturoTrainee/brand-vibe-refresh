@@ -97,7 +97,7 @@ export function Hero() {
                 </div>
 
               ) : (
-                <div className="relative h-[55vh] min-h-[420px] max-h-[640px] w-full overflow-hidden">
+                <div className="relative h-[35vw] min-h-[360px] max-h-[480px] w-full overflow-hidden">
                   <>
                     <div
                       data-lov-image-placeholder
