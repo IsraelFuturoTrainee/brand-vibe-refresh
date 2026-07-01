@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import bannerSalmao from "@/assets/banner-salmao-chileno-v2.png.asset.json";
+import bannerSalmao from "@/assets/banner-salmao-chileno.png.asset.json";
 
 type TextSlide = {
   kind: "text";
