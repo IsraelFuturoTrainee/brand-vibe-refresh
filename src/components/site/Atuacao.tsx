@@ -1,4 +1,5 @@
 import { MapPin } from "lucide-react";
+import mapaMG from "@/assets/mapa-mg.png.asset.json";
 
 const REGIOES = [
   "Matriz - Vale do Aço",
@@ -46,23 +47,12 @@ export function Atuacao() {
             </div>
 
             <div className="relative flex items-center justify-center">
-              <svg
-                viewBox="0 0 400 360"
-                className="h-auto w-full max-w-md text-muted-foreground/30"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                {/* Simplified silhouette of Minas Gerais */}
-                <path d="M60 150 L90 110 L140 90 L190 70 L240 60 L290 75 L330 100 L355 140 L360 190 L340 230 L310 260 L280 290 L240 305 L200 300 L160 295 L120 280 L90 250 L70 210 Z" />
-              </svg>
-              <span className="pointer-events-none absolute right-10 top-1/2 -translate-y-1/2 text-5xl font-extrabold text-muted-foreground/50">
-                MG
-              </span>
-              <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-lime text-primary shadow-lg ring-4 ring-background">
-                  <MapPin className="h-7 w-7" strokeWidth={2.5} />
-                </div>
-              </div>
+              <img
+                src={mapaMG.url}
+                alt="Mapa de atuação em Minas Gerais"
+                className="h-auto w-full max-w-md"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
