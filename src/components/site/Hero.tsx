@@ -8,7 +8,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import bannerSalmao from "@/assets/banner-salmao-chileno-v3.png.asset.json";
 import bannerVinho from "@/assets/banner-luis-felipe-edwards-v3.png.asset.json";
 import bannerSenna from "@/assets/banner-senna-v2.png.asset.json";
@@ -63,14 +63,63 @@ const slides: Slide[] = [
 export function Hero() {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [mobileSlideHeight, setMobileSlideHeight] = useState<number>();
+  const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  const syncMobileSlideHeight = useCallback(() => {
+    if (typeof window === "undefined") return;
+
+    if (window.innerWidth >= 640) {
+      setMobileSlideHeight(undefined);
+      return;
+    }
+
+    const activeIndex = api?.selectedScrollSnap() ?? current;
+    const activeSlide = slideRefs.current[activeIndex];
+    const activeContent = activeSlide?.firstElementChild as HTMLElement | null;
+
+    if (!activeContent) return;
+
+    setMobileSlideHeight(Math.ceil(activeContent.getBoundingClientRect().height));
+  }, [api, current]);
+
+  const scheduleMobileSlideHeightSync = useCallback(() => {
+    if (typeof window === "undefined") return;
+
+    window.requestAnimationFrame(syncMobileSlideHeight);
+  }, [syncMobileSlideHeight]);
 
   useEffect(() => {
     if (!api) return;
-    setCurrent(api.selectedScrollSnap());
-    api.on("select", () => setCurrent(api.selectedScrollSnap()));
+
+    const updateCurrent = () => setCurrent(api.selectedScrollSnap());
+    updateCurrent();
+    api.on("select", updateCurrent);
+    api.on("reInit", updateCurrent);
+
     const id = setInterval(() => api.scrollNext(), 6000);
-    return () => clearInterval(id);
+
+    return () => {
+      clearInterval(id);
+      api.off("select", updateCurrent);
+      api.off("reInit", updateCurrent);
+    };
   }, [api]);
+
+  useEffect(() => {
+    scheduleMobileSlideHeightSync();
+  }, [current, scheduleMobileSlideHeightSync]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    window.addEventListener("resize", scheduleMobileSlideHeightSync);
+    return () => window.removeEventListener("resize", scheduleMobileSlideHeightSync);
+  }, [scheduleMobileSlideHeightSync]);
+
+  const mobileHeightStyle = mobileSlideHeight
+    ? ({ "--hero-mobile-height": `${mobileSlideHeight}px` } as CSSProperties)
+    : undefined;
 
   return (
     <section id="top" className="relative bg-brand-navy">
@@ -78,10 +127,20 @@ export function Hero() {
         setApi={setApi}
         opts={{ loop: true }}
         className="relative mx-auto w-full overflow-hidden"
+        style={mobileHeightStyle}
       >
-        <CarouselContent className="ml-0">
+        <CarouselContent
+          className="ml-0 items-start transition-[height] duration-200 sm:items-stretch sm:transition-none"
+          style={mobileSlideHeight ? { height: mobileSlideHeight } : undefined}
+        >
           {slides.map((slide, i) => (
-            <CarouselItem key={i} className="pl-0">
+            <CarouselItem
+              key={i}
+              ref={(node) => {
+                slideRefs.current[i] = node;
+              }}
+              className="pl-0"
+            >
               {slide.kind === "image" ? (
                 <div className="relative w-full overflow-hidden bg-brand-navy sm:aspect-[2.85/1] sm:max-h-[480px] sm:min-h-[300px]">
                   <div
@@ -93,11 +152,12 @@ export function Hero() {
                   <img
                     src={slide.image}
                     alt={slide.alt}
-                    className="relative z-10 block h-auto w-full sm:h-full sm:object-contain sm:object-center"
+                    onLoad={scheduleMobileSlideHeightSync}
+                    className="relative z-10 block h-auto w-full object-contain object-center sm:h-full"
                   />
                 </div>
               ) : (
-                <div className="relative min-h-[420px] w-full overflow-hidden py-12 sm:h-[35vw] sm:min-h-[360px] sm:max-h-[480px] sm:py-0">
+                <div className="relative w-full overflow-hidden py-8 sm:h-[35vw] sm:min-h-[360px] sm:max-h-[480px] sm:py-0">
 
                   <>
                     <div
@@ -141,8 +201,8 @@ export function Hero() {
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="left-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:left-6" />
-        <CarouselNext className="right-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:right-6" />
+        <CarouselPrevious className="left-4 top-[calc(var(--hero-mobile-height,100%)/2)] z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:left-6 sm:top-1/2" />
+        <CarouselNext className="right-4 top-[calc(var(--hero-mobile-height,100%)/2)] z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:right-6 sm:top-1/2" />
 
         <div className="mt-3 mb-4 flex justify-center gap-2 sm:absolute sm:bottom-4 sm:left-1/2 sm:mt-0 sm:mb-0 sm:-translate-x-1/2">
           {slides.map((_, i) => (
