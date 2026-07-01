@@ -10,7 +10,7 @@ const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   },
   {
     prompt: "Interior of a large refrigerated warehouse with pallet racking full of food products",
-    label: "Armazém refrigerado",
+    label: "Equipe Tudobom",
     image: equipeAcelera.url,
   },
   {
