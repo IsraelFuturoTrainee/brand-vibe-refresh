@@ -42,7 +42,7 @@ const LOG_HIGHLIGHTS = [
   },
   {
     icon: ShieldCheck,
-    n: "24/7",
+    n: "Qualidade Garantida",
     label: "Armazenagem, transporte e distribuição realizados com rigorosos padrões de qualidade.",
   },
 ];
