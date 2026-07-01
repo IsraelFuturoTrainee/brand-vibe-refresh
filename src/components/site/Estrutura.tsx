@@ -38,7 +38,7 @@ const LOG_HIGHLIGHTS = [
   {
     icon: Route,
     n: "100%",
-    label: "monitoramento em rota",
+    label: "Todos os veículos são monitorados em tempo real durante todo o percurso.",
   },
   {
     icon: ShieldCheck,
