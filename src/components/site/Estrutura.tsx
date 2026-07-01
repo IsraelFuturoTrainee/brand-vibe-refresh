@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Truck, ShieldCheck, Route, ThermometerSnowflake } from "lucide-react";
-import equipeAcelera from "@/assets/equipe-acelera-tudobom.jpg.asset.json";
+import equipeAcelera from "@/assets/equipe-acelera-combo.jpg.asset.json";
 
 const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   {
