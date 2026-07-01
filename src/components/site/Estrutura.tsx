@@ -37,7 +37,7 @@ const LOG_HIGHLIGHTS = [
   },
   {
     icon: Route,
-    n: "100%",
+    n: "Frota 100% Monitorada",
     label: "Todos os veículos são monitorados em tempo real durante todo o percurso.",
   },
   {
