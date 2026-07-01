@@ -83,6 +83,12 @@ export function Hero() {
     setMobileSlideHeight(Math.ceil(activeContent.getBoundingClientRect().height));
   }, [api, current]);
 
+  const scheduleMobileSlideHeightSync = useCallback(() => {
+    if (typeof window === "undefined") return;
+
+    window.requestAnimationFrame(syncMobileSlideHeight);
+  }, [syncMobileSlideHeight]);
+
   useEffect(() => {
     if (!api) return;
 
@@ -101,15 +107,15 @@ export function Hero() {
   }, [api]);
 
   useEffect(() => {
-    syncMobileSlideHeight();
-  }, [current, syncMobileSlideHeight]);
+    scheduleMobileSlideHeightSync();
+  }, [current, scheduleMobileSlideHeightSync]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    window.addEventListener("resize", syncMobileSlideHeight);
-    return () => window.removeEventListener("resize", syncMobileSlideHeight);
-  }, [syncMobileSlideHeight]);
+    window.addEventListener("resize", scheduleMobileSlideHeightSync);
+    return () => window.removeEventListener("resize", scheduleMobileSlideHeightSync);
+  }, [scheduleMobileSlideHeightSync]);
 
   const mobileHeightStyle = mobileSlideHeight
     ? ({ "--hero-mobile-height": `${mobileSlideHeight}px` } as CSSProperties)
@@ -146,8 +152,8 @@ export function Hero() {
                   <img
                     src={slide.image}
                     alt={slide.alt}
-                    onLoad={syncMobileSlideHeight}
-                    className="relative z-10 block h-auto w-full sm:h-full sm:object-contain sm:object-center"
+                    onLoad={scheduleMobileSlideHeightSync}
+                    className="relative z-10 block h-auto w-full object-contain object-center sm:h-full"
                   />
                 </div>
               ) : (
