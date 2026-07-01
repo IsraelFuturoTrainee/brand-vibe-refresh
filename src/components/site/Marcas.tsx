@@ -57,6 +57,7 @@ import andorinhaLogo from "@/assets/andorinha.jpg.asset.json";
 import mccainLogo from "@/assets/mccain.png.asset.json";
 import simplotLogo from "@/assets/simplot.png.asset.json";
 import suacuiLogo from "@/assets/suacui.png.asset.json";
+import luisFelipeEdwardsLogo from "@/assets/luis-felipe-edwards.jpg.asset.json";
 
 const BRAND_LOGOS: Record<string, string> = {
   Sadia: sadiaLogo.url,
@@ -72,6 +73,7 @@ const BRAND_LOGOS: Record<string, string> = {
   McCain: mccainLogo.url,
   Qualy: simplotLogo.url,
   Suacui: suacuiLogo.url,
+  Bunge: luisFelipeEdwardsLogo.url,
 };
 
 function LogoTile({
