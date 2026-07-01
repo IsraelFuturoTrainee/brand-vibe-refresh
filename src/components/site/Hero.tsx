@@ -11,6 +11,7 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import bannerSalmao from "@/assets/banner-salmao-chileno-v3.png.asset.json";
 import bannerVinho from "@/assets/banner-luis-felipe-edwards-v3.png.asset.json";
+import bannerSenna from "@/assets/banner-senna.png.asset.json";
 
 type TextSlide = {
   kind: "text";
