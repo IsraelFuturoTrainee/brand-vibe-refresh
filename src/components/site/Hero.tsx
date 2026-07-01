@@ -144,7 +144,7 @@ export function Hero() {
         <CarouselPrevious className="left-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:left-6" />
         <CarouselNext className="right-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:right-6" />
 
-        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+        <div className="mt-3 mb-4 flex justify-center gap-2 sm:absolute sm:bottom-4 sm:left-1/2 sm:mt-0 sm:mb-0 sm:-translate-x-1/2">
           {slides.map((_, i) => (
             <button
               key={i}
