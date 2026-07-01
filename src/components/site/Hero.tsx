@@ -13,6 +13,7 @@ import bannerSalmao from "@/assets/banner-salmao-chileno-v3.png.asset.json";
 import bannerVinho from "@/assets/banner-luis-felipe-edwards-v3.png.asset.json";
 import bannerSenna from "@/assets/banner-senna-v2.png.asset.json";
 import bannerEbomCafe from "@/assets/banner-ebom-cafe.png.asset.json";
+import bannerTrofeu from "@/assets/banner-trofeu-2025.png.asset.json";
 
 type TextSlide = {
   kind: "text";
@@ -37,6 +38,11 @@ const slides: Slide[] = [
     kind: "image",
     image: bannerEbomCafe.url,
     alt: "ébom — O sabor que desperta seu dia",
+  },
+  {
+    kind: "image",
+    image: bannerTrofeu.url,
+    alt: "tudobom vence Troféu Destaque MBRF Distribuidores 2025",
   },
   {
     kind: "image",
