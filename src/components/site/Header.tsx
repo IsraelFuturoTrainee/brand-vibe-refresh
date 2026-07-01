@@ -22,12 +22,12 @@ export function Header() {
           <Logo className="h-16 w-auto sm:h-20 md:h-24" />
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-3 md:flex lg:gap-8">
           {NAV.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-sm font-semibold uppercase tracking-wide text-white/90 transition-colors hover:text-brand-lime"
+              className="text-xs font-semibold uppercase tracking-wide text-white/90 transition-colors hover:text-brand-lime lg:text-sm"
             >
               {item.label}
             </a>
@@ -37,7 +37,8 @@ export function Header() {
         <div className="hidden md:block">
           <Button
             asChild
-            className="bg-brand-lime text-brand-lime-foreground font-bold hover:bg-brand-lime/90"
+            size="sm"
+            className="whitespace-nowrap bg-brand-lime text-brand-lime-foreground font-bold hover:bg-brand-lime/90 lg:h-10 lg:px-4"
           >
             <a href="#contato">Fale Conosco</a>
           </Button>
