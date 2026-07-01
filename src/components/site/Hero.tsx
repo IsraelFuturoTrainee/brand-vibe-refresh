@@ -31,6 +31,7 @@ type Slide = TextSlide | ImageSlide;
 
 const slides: Slide[] = [
   {
+    kind: "text",
     eyebrow: "Desde 2002 • Coronel Fabriciano / MG",
     title: "Distribuição e importação de alimentos com",
     highlight: "qualidade que faz diferença",
@@ -41,16 +42,12 @@ const slides: Slide[] = [
       "Modern refrigerated food distribution warehouse interior with pallets and forklifts, wide corporate photography, blue and green tones",
   },
   {
-    eyebrow: "Logística de ponta",
-    title: "Uma frota de 62 caminhões",
-    highlight: "monitorada em tempo real",
-    description:
-      "Entregas refrigeradas, congeladas e secas em todo o estado de Minas Gerais com rastreio completo.",
-    cta: { label: "Nossa estrutura", href: "#estrutura" },
-    prompt:
-      "White refrigerated delivery truck on Brazilian highway at sunrise, corporate logistics wide photography",
+    kind: "image",
+    image: bannerSalmao.url,
+    alt: "tudobom — Maior importadora de salmão fresco chileno de Minas Gerais",
   },
   {
+    kind: "text",
     eyebrow: "Importação",
     title: "Marcas do mundo inteiro",
     highlight: "na mesa do consumidor brasileiro",
@@ -61,6 +58,7 @@ const slides: Slide[] = [
       "Assorted premium imported food products on clean supermarket shelves, wide bright commercial photography",
   },
   {
+    kind: "text",
     eyebrow: "Marca própria",
     title: "ébom — o sabor",
     highlight: "que a gente confia",
