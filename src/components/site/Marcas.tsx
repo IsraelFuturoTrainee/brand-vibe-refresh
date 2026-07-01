@@ -56,6 +56,7 @@ const BRAND_LOGOS: Record<string, string> = {
   Sadia: sadiaLogo.url,
   Perdigão: perdigaoLogo.url,
   Nestlé: nestleLogo.url,
+  BRF: brfLogo.url,
   Maguary: maguaryLogo.url,
   daFruta: dafrutaLogo.url,
   Panasonic: panasonicLogo.url,
