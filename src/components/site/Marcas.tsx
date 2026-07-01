@@ -1,3 +1,28 @@
+import ebom from "@/assets/marcas/ebom.png.asset.json";
+import naturalOne from "@/assets/marcas/natural-one.png.asset.json";
+import naturePalm from "@/assets/marcas/nature-palm.png.asset.json";
+import andorinha from "@/assets/marcas/andorinha.png.asset.json";
+import suacui from "@/assets/marcas/suacui.png.asset.json";
+import bunge from "@/assets/marcas/bunge.png.asset.json";
+import brownForman from "@/assets/marcas/brown-forman.png.asset.json";
+import classeA from "@/assets/marcas/classe-a.png.asset.json";
+import ecomar from "@/assets/marcas/ecomar.png.asset.json";
+import nat from "@/assets/marcas/nat.png.asset.json";
+import nestle from "@/assets/marcas/nestle.png.asset.json";
+import panasonic from "@/assets/marcas/panasonic.png.asset.json";
+import schultz from "@/assets/marcas/schultz.png.asset.json";
+import maguary from "@/assets/marcas/maguary.png.asset.json";
+import dafruta from "@/assets/marcas/dafruta.png.asset.json";
+import donaBia from "@/assets/marcas/dona-bia.png.asset.json";
+import riviera from "@/assets/marcas/riviera.png.asset.json";
+import sadia from "@/assets/marcas/sadia.png.asset.json";
+import brf from "@/assets/marcas/brf.png.asset.json";
+import kidelli from "@/assets/marcas/kidelli.png.asset.json";
+import qualy from "@/assets/marcas/qualy.png.asset.json";
+import sofiteli from "@/assets/marcas/sofiteli.png.asset.json";
+import perdigao from "@/assets/marcas/perdigao.png.asset.json";
+import salsaretti from "@/assets/marcas/salsaretti.png.asset.json";
+
 type Importada = { country: string; code: string; segment: string };
 
 const IMPORTADAS: Importada[] = [
@@ -12,53 +37,72 @@ const IMPORTADAS: Importada[] = [
   { country: "Uruguai", code: "uy", segment: "Carnes Bovinas" },
 ];
 
-const DISTRIBUICAO = [
-  "Sadia",
-  "Perdigão",
-  "Nestlé",
-  "BRF",
-  "Bunge",
-  "Andorinha",
-  "Maguary",
-  "daFruta",
-  "Dona Bia",
-  "Riviera",
-  "Kidelli",
-  "Qualy",
-  "Sofiteli",
-  "Salsaretti",
-  "Etti",
-  "Cajamar",
-  "Natural One",
-  "Nature Palm",
-  "Classe A",
-  "Ecomar",
-  "Nat",
-  "Panasonic",
-  "Schultz",
-  "Brown-Forman",
-  "McCain",
-  "Nucos",
-  "Terra Vega",
-  "Suacui",
+type Marca = { label: string; logo?: { url: string } };
+
+const DISTRIBUICAO: Marca[] = [
+  { label: "Sadia", logo: sadia },
+  { label: "Perdigão", logo: perdigao },
+  { label: "Nestlé", logo: nestle },
+  { label: "BRF", logo: brf },
+  { label: "Bunge", logo: bunge },
+  { label: "Andorinha", logo: andorinha },
+  { label: "Maguary", logo: maguary },
+  { label: "daFruta", logo: dafruta },
+  { label: "Dona Bia", logo: donaBia },
+  { label: "Riviera", logo: riviera },
+  { label: "Kidelli", logo: kidelli },
+  { label: "Qualy", logo: qualy },
+  { label: "Sofiteli", logo: sofiteli },
+  { label: "Salsaretti", logo: salsaretti },
+  { label: "Etti" },
+  { label: "Cajamar" },
+  { label: "Natural One", logo: naturalOne },
+  { label: "Nature Palm", logo: naturePalm },
+  { label: "Classe A", logo: classeA },
+  { label: "Ecomar", logo: ecomar },
+  { label: "Nat", logo: nat },
+  { label: "Panasonic", logo: panasonic },
+  { label: "Schultz", logo: schultz },
+  { label: "Brown-Forman", logo: brownForman },
+  { label: "McCain" },
+  { label: "Nucos" },
+  { label: "Terra Vega" },
+  { label: "Suacui", logo: suacui },
 ];
 
-function LogoTile({ label, featured = false }: { label: string; featured?: boolean }) {
+function LogoTile({
+  label,
+  logo,
+  featured = false,
+}: {
+  label: string;
+  logo?: { url: string };
+  featured?: boolean;
+}) {
   return (
     <div
       className={`flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-card p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md ${
         featured ? "ring-2 ring-brand-lime" : ""
       }`}
     >
-      <span
-        className={`font-display font-bold ${
-          featured
-            ? "text-2xl lowercase text-primary"
-            : "text-sm font-semibold text-muted-foreground"
-        }`}
-      >
-        {label}
-      </span>
+      {logo ? (
+        <img
+          src={logo.url}
+          alt={label}
+          loading="lazy"
+          className="max-h-full max-w-full object-contain"
+        />
+      ) : (
+        <span
+          className={`font-display font-bold ${
+            featured
+              ? "text-2xl lowercase text-primary"
+              : "text-sm font-semibold text-muted-foreground"
+          }`}
+        >
+          {label}
+        </span>
+      )}
     </div>
   );
 }
@@ -106,7 +150,6 @@ export function Marcas() {
           ))}
         </div>
 
-
         {/* Distribuição */}
         <div className="mt-20 max-w-3xl">
           <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
@@ -123,9 +166,9 @@ export function Marcas() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          <LogoTile label="ébom" featured />
-          {DISTRIBUICAO.map((label) => (
-            <LogoTile key={label} label={label} />
+          <LogoTile label="ébom" logo={ebom} featured />
+          {DISTRIBUICAO.map((m) => (
+            <LogoTile key={m.label} label={m.label} logo={m.logo} />
           ))}
         </div>
       </div>
