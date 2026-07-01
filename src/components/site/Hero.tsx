@@ -49,15 +49,9 @@ const slides: Slide[] = [
     alt: "tudobom — Maior importadora de salmão fresco chileno de Minas Gerais",
   },
   {
-    kind: "text",
-    eyebrow: "Importação",
-    title: "Marcas do mundo inteiro",
-    highlight: "na mesa do consumidor brasileiro",
-    description:
-      "Selecionamos e importamos produtos de fornecedores globais parceiros para o mercado nacional.",
-    cta: { label: "Ver marcas", href: "#marcas" },
-    prompt:
-      "Assorted premium imported food products on clean supermarket shelves, wide bright commercial photography",
+    kind: "image",
+    image: bannerSenna.url,
+    alt: "tudobom — Ayrton Senna: dedicação total, buscar o seu limite máximo e dar o melhor de si",
   },
   {
     kind: "image",
