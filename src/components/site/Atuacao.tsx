@@ -1,59 +1,67 @@
 import { MapPin } from "lucide-react";
 
 const REGIOES = [
-  "Minas Gerais",
-  "Espírito Santo",
-  "Bahia (sul)",
-  "Rio de Janeiro (interior)",
-  "Vale do Aço",
+  "Matriz - Vale do Aço",
+  "Metropolitana de Belo Horizonte",
+  "Central Mineira",
   "Zona da Mata",
-  "Grande BH",
+  "Vale do Rio Doce",
+  "Vale do Mucuri",
+  "Vale do Jequitinhonha",
   "Norte de Minas",
+  "Noroeste de Minas",
 ];
 
 export function Atuacao() {
   return (
     <section id="atuacao" className="py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div>
-            <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
-              Nosso Negócio
-            </span>
-            <h2 className="mt-3 text-3xl font-extrabold text-primary sm:text-4xl lg:text-5xl">
-              Atuação
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              A partir de Coronel Fabriciano, atendemos a região sudeste com foco em Minas Gerais e
-              estados vizinhos, levando qualidade porta a porta.
-            </p>
+        <div className="text-center">
+          <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
+            Nosso Negócio
+          </span>
+          <h2 className="mt-3 text-3xl font-extrabold text-primary sm:text-4xl lg:text-5xl">
+            Atuação
+          </h2>
+          <div className="mx-auto mt-4 h-1 w-12 rounded bg-brand-lime" />
+        </div>
 
-            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-              {REGIOES.map((r) => (
-                <li
-                  key={r}
-                  className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3"
-                >
-                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-lime/20 text-primary">
-                    <MapPin className="h-4 w-4" />
-                  </span>
-                  <span className="font-medium text-primary">{r}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="mt-14 rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-10 lg:p-14">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                Os produtos da tudobom, sejam de origem nacional ou importados,
+                encontram-se disponíveis para distribuição em todas as regiões
+                do estado de Minas Gerais.
+              </p>
 
-          <div
-            data-lov-image-placeholder
-            data-prompt="Stylized minimal map of southeast Brazil highlighting Minas Gerais with a marker on Coronel Fabriciano, navy blue and lime green corporate colors, clean vector illustration"
-            data-width="900"
-            data-height="900"
-            className="relative aspect-square overflow-hidden rounded-3xl bg-muted ring-1 ring-border"
-          >
-            <div className="flex h-full items-center justify-center">
-              <div className="text-center text-muted-foreground">
-                <MapPin className="mx-auto h-12 w-12 text-brand-lime" />
-                <p className="mt-2 text-sm font-semibold">Mapa de atuação</p>
+              <ul className="mt-8 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                {REGIOES.map((r) => (
+                  <li key={r} className="flex items-start gap-2 text-primary">
+                    <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand-lime" />
+                    <span className="font-medium">{r}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="relative flex items-center justify-center">
+              <svg
+                viewBox="0 0 400 360"
+                className="h-auto w-full max-w-md text-muted-foreground/30"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                {/* Simplified silhouette of Minas Gerais */}
+                <path d="M60 150 L90 110 L140 90 L190 70 L240 60 L290 75 L330 100 L355 140 L360 190 L340 230 L310 260 L280 290 L240 305 L200 300 L160 295 L120 280 L90 250 L70 210 Z" />
+              </svg>
+              <span className="pointer-events-none absolute right-10 top-1/2 -translate-y-1/2 text-5xl font-extrabold text-muted-foreground/50">
+                MG
+              </span>
+              <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-lime text-primary shadow-lg ring-4 ring-background">
+                  <MapPin className="h-7 w-7" strokeWidth={2.5} />
+                </div>
               </div>
             </div>
           </div>
