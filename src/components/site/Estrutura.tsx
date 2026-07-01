@@ -27,8 +27,8 @@ const GALLERY = [
 const LOG_HIGHLIGHTS = [
   {
     icon: Truck,
-    n: "62",
-    label: "caminhões próprios",
+    n: "Logística Própria",
+    label: "62 Caminhões próprios equipados para atender diferentes necessidades de transporte com qualidade.",
   },
   {
     icon: ThermometerSnowflake,
