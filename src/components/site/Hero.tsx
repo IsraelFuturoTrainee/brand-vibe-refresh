@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from "re
 import bannerSalmao from "@/assets/banner-salmao-chileno-v3.png.asset.json";
 import bannerVinho from "@/assets/banner-luis-felipe-edwards-v3.png.asset.json";
 import bannerSenna from "@/assets/banner-senna-v2.png.asset.json";
+import bannerEbomCafe from "@/assets/banner-ebom-cafe.png.asset.json";
 
 type TextSlide = {
   kind: "text";
@@ -33,15 +34,9 @@ type Slide = TextSlide | ImageSlide;
 
 const slides: Slide[] = [
   {
-    kind: "text",
-    eyebrow: "Desde 2002 • Coronel Fabriciano / MG",
-    title: "Distribuição e importação de alimentos com",
-    highlight: "qualidade que faz diferença",
-    description:
-      "15.600 m² de estrutura, frota refrigerada monitorada e um portfólio de marcas nacionais e importadas.",
-    cta: { label: "Fale Conosco", href: "#contato" },
-    prompt:
-      "Modern refrigerated food distribution warehouse interior with pallets and forklifts, wide corporate photography, blue and green tones",
+    kind: "image",
+    image: bannerEbomCafe.url,
+    alt: "ébom — O sabor que desperta seu dia",
   },
   {
     kind: "image",
