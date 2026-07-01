@@ -73,9 +73,7 @@ export function Sobre() {
           </div>
 
           <Card className="flex flex-col items-center justify-center gap-6 border-border bg-muted p-10 text-center">
-            <div className="rounded-2xl bg-white p-6 ring-1 ring-border">
-              <Logo className="h-20 w-auto" />
-            </div>
+            <Logo className="h-28 w-auto sm:h-32" />
             <p className="text-sm text-muted-foreground">
               Uma empresa mineira orgulhosa das suas raízes, das suas pessoas e do trabalho que
               realiza todos os dias.
