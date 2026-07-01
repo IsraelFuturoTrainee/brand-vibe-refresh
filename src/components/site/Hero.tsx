@@ -88,16 +88,13 @@ export function Hero() {
           {slides.map((slide, i) => (
             <CarouselItem key={i} className="pl-0">
               {slide.kind === "image" ? (
-                <div className="relative w-full overflow-hidden bg-brand-navy px-0 py-0 sm:px-6 sm:py-4">
-                  <div className="mx-auto aspect-video w-full max-w-[854px]">
+                <div className="relative h-[42vh] min-h-[260px] w-full overflow-hidden bg-brand-navy sm:h-[55vh] sm:min-h-[360px] md:h-[60vh] lg:h-[70vh] lg:max-h-[640px]">
                   <img
                     src={slide.image}
                     alt={slide.alt}
-                    className="h-full w-full object-contain object-center"
+                    className="h-full w-full object-cover object-[80%_center] md:object-[70%_center] lg:object-center"
                   />
-                  </div>
                 </div>
-
               ) : (
                 <div className="relative h-[35vw] min-h-[360px] max-h-[480px] w-full overflow-hidden">
                   <>
