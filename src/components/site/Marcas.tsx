@@ -1,15 +1,15 @@
-type Importada = { country: string; code: string; flag: string; segment: string };
+type Importada = { country: string; code: string; segment: string };
 
 const IMPORTADAS: Importada[] = [
-  { country: "Argentina", code: "AR", flag: "🇦🇷", segment: "Carnes Bovinas" },
-  { country: "Argentina", code: "AR", flag: "🇦🇷", segment: "Pescados" },
-  { country: "Chile", code: "CL", flag: "🇨🇱", segment: "Salmão do Chile" },
-  { country: "Chile", code: "CL", flag: "🇨🇱", segment: "Casa Valduga e Terra Vega" },
-  { country: "Noruega", code: "NO", flag: "🇳🇴", segment: "Bacalhau Seco e Salgado da Noruega" },
-  { country: "Portugal", code: "PT", flag: "🇵🇹", segment: "Azeite" },
-  { country: "Portugal", code: "PT", flag: "🇵🇹", segment: "Bacalhau" },
-  { country: "Uruguai", code: "UY", flag: "🇺🇾", segment: "Pescados" },
-  { country: "Uruguai", code: "UY", flag: "🇺🇾", segment: "Carnes Bovinas" },
+  { country: "Argentina", code: "ar", segment: "Carnes Bovinas" },
+  { country: "Argentina", code: "ar", segment: "Pescados" },
+  { country: "Chile", code: "cl", segment: "Salmão do Chile" },
+  { country: "Chile", code: "cl", segment: "Casa Valduga e Terra Vega" },
+  { country: "Noruega", code: "no", segment: "Bacalhau Seco e Salgado da Noruega" },
+  { country: "Portugal", code: "pt", segment: "Azeite" },
+  { country: "Portugal", code: "pt", segment: "Bacalhau" },
+  { country: "Uruguai", code: "uy", segment: "Pescados" },
+  { country: "Uruguai", code: "uy", segment: "Carnes Bovinas" },
 ];
 
 const DISTRIBUICAO = [
@@ -65,10 +65,16 @@ function LogoTile({ label, featured = false }: { label: string; featured?: boole
 
 function ImportadaCard({ item }: { item: Importada }) {
   return (
-    <div className="flex aspect-[3/2] flex-col items-center justify-center gap-2 rounded-2xl border border-border bg-card p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
-      <span className="text-4xl leading-none sm:text-5xl" aria-label={item.country}>
-        {item.flag}
-      </span>
+    <div className="flex aspect-[3/2] flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-card p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+      <img
+        src={`https://flagcdn.com/w320/${item.code}.png`}
+        srcSet={`https://flagcdn.com/w640/${item.code}.png 2x`}
+        width={96}
+        height={64}
+        alt={`Bandeira ${item.country}`}
+        loading="lazy"
+        className="h-12 w-auto rounded-sm object-contain shadow-sm sm:h-14"
+      />
       <span className="font-display text-xs font-semibold text-primary sm:text-sm">
         {item.segment}
       </span>
