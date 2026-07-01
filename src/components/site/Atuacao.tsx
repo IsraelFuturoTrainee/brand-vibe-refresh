@@ -27,7 +27,7 @@ export function Atuacao() {
           <div className="mx-auto mt-4 h-1 w-12 rounded bg-brand-lime" />
         </div>
 
-        <div className="mt-14 rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-10 lg:p-14">
+        <div className="mt-14 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6 lg:p-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="text-lg leading-relaxed text-muted-foreground">
