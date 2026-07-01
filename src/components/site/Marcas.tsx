@@ -24,14 +24,8 @@ const DISTRIBUICAO = [
   "Qualy",
   "Salsaretti",
   "Natural One",
-  "Ecomar",
-  "Nat",
   "Panasonic",
-  "Schultz",
-  "Brown-Forman",
   "McCain",
-  "Nucos",
-  "Terra Vega",
   "Suacui",
 ];
 
