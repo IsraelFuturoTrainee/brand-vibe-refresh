@@ -73,7 +73,7 @@ function LogoTile({ label, featured = false }: { label: string; featured?: boole
         <img
           src={logoUrl}
           alt={label}
-          className="h-auto w-[92%] object-contain"
+          className="max-h-full max-w-full object-contain"
         />
       ) : (
         <span className="font-display text-sm font-semibold text-muted-foreground">
