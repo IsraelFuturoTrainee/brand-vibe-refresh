@@ -47,11 +47,15 @@ import ebomLogo from "@/assets/ebom-logo.png";
 import sadiaLogo from "@/assets/sadia.webp.asset.json";
 import perdigaoLogo from "@/assets/perdigao.png.asset.json";
 import nestleLogo from "@/assets/nestle.png.asset.json";
+import maguaryLogo from "@/assets/maguary.png.asset.json";
+import dafrutaLogo from "@/assets/dafruta.png.asset.json";
 
 const BRAND_LOGOS: Record<string, string> = {
   Sadia: sadiaLogo.url,
   Perdigão: perdigaoLogo.url,
   Nestlé: nestleLogo.url,
+  Maguary: maguaryLogo.url,
+  daFruta: dafrutaLogo.url,
 };
 
 function LogoTile({
