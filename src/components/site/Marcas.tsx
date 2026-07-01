@@ -50,6 +50,7 @@ import nestleLogo from "@/assets/nestle.png.asset.json";
 import maguaryLogo from "@/assets/maguary.png.asset.json";
 import dafrutaLogo from "@/assets/dafruta.png.asset.json";
 import panasonicLogo from "@/assets/panasonic.jpg.asset.json";
+import brfLogo from "@/assets/brf.png.asset.json";
 
 const BRAND_LOGOS: Record<string, string> = {
   Sadia: sadiaLogo.url,
