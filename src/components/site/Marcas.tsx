@@ -21,25 +21,11 @@ const DISTRIBUICAO = [
   "Andorinha",
   "Maguary",
   "daFruta",
-  "Dona Bia",
-  "Riviera",
-  "Kidelli",
   "Qualy",
-  "Sofiteli",
   "Salsaretti",
-  "Etti",
-  "Cajamar",
   "Natural One",
-  "Nature Palm",
-  "Classe A",
-  "Ecomar",
-  "Nat",
   "Panasonic",
-  "Schultz",
-  "Brown-Forman",
   "McCain",
-  "Nucos",
-  "Terra Vega",
   "Suacui",
 ];
 
@@ -174,7 +160,7 @@ export function Marcas() {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-10 grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-5">
           <LogoTile label="ébom" featured />
           {DISTRIBUICAO.map((label) => (
             <LogoTile
