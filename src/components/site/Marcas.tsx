@@ -43,20 +43,23 @@ const DISTRIBUICAO = [
   "Suacui",
 ];
 
+import ebomLogo from "@/assets/ebom-logo.png";
+
 function LogoTile({ label, featured = false }: { label: string; featured?: boolean }) {
+  if (featured) {
+    return (
+      <div className="flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-card p-4 text-center ring-2 ring-brand-lime transition-all hover:-translate-y-0.5 hover:shadow-md">
+        <img
+          src={ebomLogo}
+          alt={label}
+          className="max-h-full max-w-full object-contain"
+        />
+      </div>
+    );
+  }
   return (
-    <div
-      className={`flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-card p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md ${
-        featured ? "ring-2 ring-brand-lime" : ""
-      }`}
-    >
-      <span
-        className={`font-display font-bold ${
-          featured
-            ? "text-2xl lowercase text-primary"
-            : "text-sm font-semibold text-muted-foreground"
-        }`}
-      >
+    <div className="flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-card p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md">
+      <span className="font-display text-sm font-semibold text-muted-foreground">
         {label}
       </span>
     </div>
