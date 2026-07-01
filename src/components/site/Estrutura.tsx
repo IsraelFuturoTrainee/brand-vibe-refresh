@@ -32,8 +32,8 @@ const LOG_HIGHLIGHTS = [
   },
   {
     icon: ThermometerSnowflake,
-    n: "Controle de Temperatura",
-    label: "Frota preparada para manter as condições ideais de transporte de produtos congelados, resfriados e secos.",
+    n: "Transporte Multitemperatura",
+    label: "Soluções logísticas para cargas congeladas, resfriadas e secas, garantindo a integridade dos produtos.",
   },
   {
     icon: Route,
