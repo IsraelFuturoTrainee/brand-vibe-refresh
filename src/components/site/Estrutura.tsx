@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Truck, ShieldCheck, Route, ThermometerSnowflake } from "lucide-react";
 import equipeAcelera from "@/assets/equipe-acelera-combo.jpg.asset.json";
+import caminhaoTb from "@/assets/caminhao-tb.png.asset.json";
 
 const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   {
@@ -15,6 +16,7 @@ const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   {
     prompt: "Forklift operator moving pallets inside a clean industrial food warehouse",
     label: "Operação logística",
+    image: caminhaoTb.url,
   },
   {
     prompt: "Dry storage area with tall pallet racks and food product boxes",
