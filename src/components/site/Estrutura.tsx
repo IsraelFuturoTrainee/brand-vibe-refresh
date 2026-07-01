@@ -141,8 +141,8 @@ export function Estrutura() {
                   <Icon className="h-6 w-6" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <div className={`font-extrabold text-primary ${n.includes("Transporte") ? "text-base sm:text-base leading-tight" : "text-3xl"}`}>
-                    {n.replace("Transporte MultiTemperatura", "Transporte MultiTemperatura")}
+                  <div className={`font-extrabold text-primary ${n.includes("Transporte") || n.includes("Logística") ? "text-base sm:text-base leading-tight" : "text-3xl"}`}>
+                    {n}
                   </div>
                   <div className="mt-1 text-sm font-medium text-muted-foreground">{label}</div>
                 </div>
