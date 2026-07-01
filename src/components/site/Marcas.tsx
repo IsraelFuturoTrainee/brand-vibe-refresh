@@ -1,4 +1,16 @@
-const IMPORTADAS = Array.from({ length: 9 }, (_, i) => `Marca Importada ${i + 1}`);
+type Importada = { country: string; code: string; flag: string; segment: string };
+
+const IMPORTADAS: Importada[] = [
+  { country: "Argentina", code: "AR", flag: "🇦🇷", segment: "Carnes Bovinas" },
+  { country: "Argentina", code: "AR", flag: "🇦🇷", segment: "Pescados" },
+  { country: "Chile", code: "CL", flag: "🇨🇱", segment: "Salmão do Chile" },
+  { country: "Chile", code: "CL", flag: "🇨🇱", segment: "Casa Valduga e Terra Vega" },
+  { country: "Noruega", code: "NO", flag: "🇳🇴", segment: "Bacalhau Seco e Salgado da Noruega" },
+  { country: "Portugal", code: "PT", flag: "🇵🇹", segment: "Azeite" },
+  { country: "Portugal", code: "PT", flag: "🇵🇹", segment: "Bacalhau" },
+  { country: "Uruguai", code: "UY", flag: "🇺🇾", segment: "Pescados" },
+  { country: "Uruguai", code: "UY", flag: "🇺🇾", segment: "Carnes Bovinas" },
+];
 
 const DISTRIBUICAO = [
   "Sadia",
@@ -51,6 +63,19 @@ function LogoTile({ label, featured = false }: { label: string; featured?: boole
   );
 }
 
+function ImportadaCard({ item }: { item: Importada }) {
+  return (
+    <div className="flex aspect-[3/2] flex-col items-center justify-center gap-2 rounded-2xl border border-border bg-card p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+      <span className="text-4xl leading-none sm:text-5xl" aria-label={item.country}>
+        {item.flag}
+      </span>
+      <span className="font-display text-xs font-semibold text-primary sm:text-sm">
+        {item.segment}
+      </span>
+    </div>
+  );
+}
+
 export function Marcas() {
   return (
     <section id="marcas" className="bg-muted/40 py-20 sm:py-28">
@@ -70,10 +95,11 @@ export function Marcas() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {IMPORTADAS.map((label) => (
-            <LogoTile key={label} label={label} />
+          {IMPORTADAS.map((item, i) => (
+            <ImportadaCard key={`${item.code}-${item.segment}-${i}`} item={item} />
           ))}
         </div>
+
 
         {/* Distribuição */}
         <div className="mt-20 max-w-3xl">
