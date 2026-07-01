@@ -10,6 +10,7 @@ import {
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import bannerSalmao from "@/assets/banner-salmao-chileno-v2.png.asset.json";
+import bannerVinho from "@/assets/banner-luis-felipe-edwards.png.asset.json";
 
 type TextSlide = {
   kind: "text";
@@ -58,15 +59,9 @@ const slides: Slide[] = [
       "Assorted premium imported food products on clean supermarket shelves, wide bright commercial photography",
   },
   {
-    kind: "text",
-    eyebrow: "Marca própria",
-    title: "ébom — o sabor",
-    highlight: "que a gente confia",
-    description:
-      "Desde 2019 nossa marca própria leva alimentos selecionados diretamente da nossa distribuição para a sua casa.",
-    cta: { label: "Sobre nós", href: "#sobre" },
-    prompt:
-      "Fresh Brazilian food products flat lay on a bright kitchen counter, wide commercial photography, natural light",
+    kind: "image",
+    image: bannerVinho.url,
+    alt: "tudobom — Vinho Luis Felipe Edwards Doña Bernarda, a elite dos vinhos chilenos",
   },
 ];
 
