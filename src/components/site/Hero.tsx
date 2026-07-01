@@ -123,8 +123,8 @@ export function Hero() {
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="left-4 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:left-6" />
-        <CarouselNext className="right-4 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:right-6" />
+        <CarouselPrevious className="left-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:left-6" />
+        <CarouselNext className="right-4 z-20 h-10 w-10 border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white sm:right-6" />
 
         <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
           {slides.map((_, i) => (
