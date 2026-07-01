@@ -15,7 +15,7 @@ const REGIOES = [
 
 export function Atuacao() {
   return (
-    <section id="atuacao" className="py-20 sm:py-28">
+    <section id="atuacao" className="py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
@@ -27,8 +27,8 @@ export function Atuacao() {
           <div className="mx-auto mt-4 h-1 w-12 rounded bg-brand-lime" />
         </div>
 
-        <div className="mt-14 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6 lg:p-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+        <div className="mt-10 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6 lg:p-8">
+          <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="text-lg leading-relaxed text-muted-foreground">
                 Os produtos da tudobom, sejam de origem nacional ou importados,
@@ -36,7 +36,7 @@ export function Atuacao() {
                 do estado de Minas Gerais.
               </p>
 
-              <ul className="mt-8 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+              <ul className="mt-5 grid gap-x-6 gap-y-2 sm:grid-cols-2">
                 {REGIOES.map((r) => (
                   <li key={r} className="flex items-start gap-2 text-primary">
                     <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand-lime" />
@@ -50,7 +50,7 @@ export function Atuacao() {
               <img
                 src={mapaMG.url}
                 alt="Mapa de atuação em Minas Gerais"
-                className="h-auto w-full max-w-md"
+                className="h-auto w-full max-w-sm"
                 loading="lazy"
               />
             </div>
