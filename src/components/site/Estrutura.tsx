@@ -32,8 +32,8 @@ const LOG_HIGHLIGHTS = [
   },
   {
     icon: ThermometerSnowflake,
-    n: "3",
-    label: "faixas de temperatura",
+    n: "Congelado • Resfriado • Seco",
+    label: "transporte especializado",
   },
   {
     icon: Route,
