@@ -54,6 +54,7 @@ import brfLogo from "@/assets/brf.png.asset.json";
 import naturalOneLogo from "@/assets/natural-one.png.asset.json";
 import salsarettiLogo from "@/assets/salsaretti.png.asset.json";
 import andorinhaLogo from "@/assets/andorinha.jpg.asset.json";
+import mccainLogo from "@/assets/mccain.png.asset.json";
 import simplotLogo from "@/assets/simplot.png.asset.json";
 import suacuiLogo from "@/assets/suacui.png.asset.json";
 import luisFelipeEdwardsLogo from "@/assets/luis-felipe-edwards.jpg.asset.json";
