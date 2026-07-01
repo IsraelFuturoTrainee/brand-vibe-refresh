@@ -105,11 +105,16 @@ export function Sobre() {
               </div>
             </div>
             <p>
-              Alinhada a um projeto de crescimento, em 2019 a Tudobom lança sua marca própria, a{" "}
+              Sempre atenta às demandas do mercado, a Tudobom ampliou sua atuação ao agregar a
+              importação de um diversificado mix de produtos alimentícios, fortalecendo sua
+              presença no segmento e consolidando-se como uma referência no mercado.
+            </p>
+            <p>
+              Em 2019, lançou a marca própria{" "}
               <span className="rounded-md bg-brand-lime/20 px-2 py-0.5 font-bold text-primary lowercase">
                 ébom
               </span>
-              , atuando nesse primeiro momento na linha de pescados e laticínios.
+              , iniciando sua atuação nas linhas de pescados e laticínios.
             </p>
           </div>
         </div>
