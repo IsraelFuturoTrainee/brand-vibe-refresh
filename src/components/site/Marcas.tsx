@@ -155,7 +155,11 @@ export function Marcas() {
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           <LogoTile label="ébom" featured />
           {DISTRIBUICAO.map((label) => (
-            <LogoTile key={label} label={label} />
+            <LogoTile
+              key={label}
+              label={label}
+              imageClass={label === "Nestlé" ? "w-[95%] h-[95%]" : ""}
+            />
           ))}
         </div>
       </div>
