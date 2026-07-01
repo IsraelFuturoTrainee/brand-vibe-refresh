@@ -54,6 +54,9 @@ import brfLogo from "@/assets/brf.png.asset.json";
 import naturalOneLogo from "@/assets/natural-one.png.asset.json";
 import salsarettiLogo from "@/assets/salsaretti.png.asset.json";
 import andorinhaLogo from "@/assets/andorinha.jpg.asset.json";
+import mccainLogo from "@/assets/mccain.png.asset.json";
+import simplotLogo from "@/assets/simplot.png.asset.json";
+import suacuiLogo from "@/assets/suacui.png.asset.json";
 
 const BRAND_LOGOS: Record<string, string> = {
   Sadia: sadiaLogo.url,
@@ -66,6 +69,9 @@ const BRAND_LOGOS: Record<string, string> = {
   "Natural One": naturalOneLogo.url,
   Salsaretti: salsarettiLogo.url,
   Andorinha: andorinhaLogo.url,
+  McCain: mccainLogo.url,
+  Qualy: simplotLogo.url,
+  Suacui: suacuiLogo.url,
 };
 
 function LogoTile({
