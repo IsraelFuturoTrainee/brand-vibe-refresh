@@ -92,14 +92,16 @@ export function Hero() {
         <CarouselContent className="ml-0">
           {slides.map((slide, i) => (
             <CarouselItem key={i} className="pl-0">
-              <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
-                {slide.kind === "image" ? (
+              {slide.kind === "image" ? (
+                <div className="relative w-full bg-brand-navy">
                   <img
                     src={slide.image}
                     alt={slide.alt}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="mx-auto block w-full max-h-[80vh] object-contain"
                   />
-                ) : (
+                </div>
+              ) : (
+                <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
                   <>
                     <div
                       data-lov-image-placeholder
@@ -108,6 +110,7 @@ export function Hero() {
                       data-height="1080"
                       className="absolute inset-0 h-full w-full bg-brand-navy"
                     />
+
                     <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-brand-navy/40" />
                     <div className="relative mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                       <div className="max-w-2xl text-white">
@@ -135,8 +138,8 @@ export function Hero() {
                       </div>
                     </div>
                   </>
-                )}
-              </div>
+                </div>
+              )}
             </CarouselItem>
           ))}
         </CarouselContent>
