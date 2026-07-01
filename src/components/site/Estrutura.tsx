@@ -43,7 +43,7 @@ const LOG_HIGHLIGHTS = [
   {
     icon: ShieldCheck,
     n: "24/7",
-    label: "controle de qualidade",
+    label: "Armazenagem, transporte e distribuição realizados com rigorosos padrões de qualidade.",
   },
 ];
 
