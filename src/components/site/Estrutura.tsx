@@ -32,8 +32,8 @@ const LOG_HIGHLIGHTS = [
   },
   {
     icon: ThermometerSnowflake,
-    n: "Congelado • Resfriado • Seco",
-    label: "transporte especializado",
+    n: "Controle de Temperatura",
+    label: "Frota preparada para manter as condições ideais de transporte de produtos congelados, resfriados e secos.",
   },
   {
     icon: Route,
