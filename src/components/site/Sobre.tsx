@@ -56,12 +56,56 @@ export function Sobre() {
                 logística eficiente e um portfólio completo de produtos para atender clientes em
                 todo o território nacional.
               </p>
-              <p>
-                Atenta às demandas do mercado, a empresa agregou à sua prestação de serviços a
-                importação de um mix de produtos alimentícios. Com essa nova plataforma de
-                negócios, a Tudobom avança para uma maior atuação, conquistando definitivamente o
-                mercado de produtos alimentícios.
-              </p>
+              <div className="mt-8 space-y-6">
+                <p className="font-semibold text-primary">
+                  A empresa conta com duas unidades estratégicas de armazenagem, totalizando
+                  3.555 posições paletes, distribuídas da seguinte forma:
+                </p>
+
+                <div className="grid gap-8 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-border bg-card/50 p-6">
+                    <h4 className="mb-4 font-bold text-primary">Unidade Coronel Fabriciano</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li>
+                        <strong className="text-primary">1.070</strong> posições paletes para
+                        produtos congelados;
+                      </li>
+                      <li>
+                        <strong className="text-primary">680</strong> posições paletes para
+                        produtos resfriados;
+                      </li>
+                      <li>
+                        <strong className="text-primary">460</strong> posições paletes para
+                        produtos secos.
+                      </li>
+                    </ul>
+                    <p className="mt-4 pt-4 border-t border-border font-bold text-primary">
+                      Total: 2.210 posições paletes.
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-border bg-card/50 p-6">
+                    <h4 className="mb-4 font-bold text-primary">Unidade Montes Claros (MOC)</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li>
+                        <strong className="text-primary">730</strong> posições paletes para
+                        produtos congelados;
+                      </li>
+                      <li>
+                        <strong className="text-primary">380</strong> posições paletes para
+                        produtos resfriados;
+                      </li>
+                      <li>
+                        <strong className="text-primary">235</strong> posições paletes para
+                        produtos secos.
+                      </li>
+                    </ul>
+                    <p className="mt-4 pt-4 border-t border-border font-bold text-primary">
+                      Total: 1.345 posições paletes.
+                    </p>
+                  </div>
+                </div>
+              </div>
               <p>
                 Alinhada a um projeto de crescimento, em 2019 a Tudobom lança sua marca própria, a{" "}
                 <span className="rounded-md bg-brand-lime/20 px-2 py-0.5 font-bold text-primary lowercase">
