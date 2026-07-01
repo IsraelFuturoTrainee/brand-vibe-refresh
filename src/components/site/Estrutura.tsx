@@ -32,7 +32,7 @@ const LOG_HIGHLIGHTS = [
   },
   {
     icon: ThermometerSnowflake,
-    n: "Transporte Multitemperatura",
+    n: "Transporte MultiTemperatura",
     label: "Soluções logísticas para cargas congeladas, resfriadas e secas, garantindo a integridade dos produtos.",
   },
   {
