@@ -82,19 +82,20 @@ export function Hero() {
       <Carousel
         setApi={setApi}
         opts={{ loop: true }}
-        className="relative mx-auto max-h-[640px] w-full overflow-hidden"
+        className="relative mx-auto w-full overflow-hidden"
       >
-        <CarouselContent className="ml-0 max-h-[640px]">
+        <CarouselContent className="ml-0">
           {slides.map((slide, i) => (
-            <CarouselItem key={i} className="pl-0 max-h-[640px]">
+            <CarouselItem key={i} className="pl-0">
               {slide.kind === "image" ? (
-                <div className="relative h-[55vh] min-h-[320px] w-full max-h-[640px]">
+                <div className="relative aspect-video w-full">
                   <img
                     src={slide.image}
                     alt={slide.alt}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
+
               ) : (
                 <div className="relative h-[55vh] min-h-[420px] max-h-[640px] w-full overflow-hidden">
                   <>
