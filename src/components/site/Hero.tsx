@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/carousel";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import bannerSalmao from "@/assets/banner-salmao-chileno.png.asset.json";
 
-type Slide = {
+type TextSlide = {
+  kind: "text";
   eyebrow: string;
   title: string;
   highlight: string;
@@ -18,6 +20,14 @@ type Slide = {
   cta: { label: string; href: string };
   prompt: string;
 };
+
+type ImageSlide = {
+  kind: "image";
+  image: string;
+  alt: string;
+};
+
+type Slide = TextSlide | ImageSlide;
 
 const slides: Slide[] = [
   {
