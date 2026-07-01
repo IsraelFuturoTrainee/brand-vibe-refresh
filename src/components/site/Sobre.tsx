@@ -49,12 +49,12 @@ export function Sobre() {
             </h2>
             <div className="mt-6 space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
               <p>
-                Fundada em <strong className="text-primary">2002</strong> na cidade de{" "}
-                <strong className="text-primary">Coronel Fabriciano</strong>, a Tudobom está
-                localizada em uma área total de{" "}
-                <strong className="text-primary">15.600 m²</strong> com capacidade para armazenar{" "}
-                <strong className="text-primary">2.280 toneladas</strong> de produtos: 1.614
-                congeladas, 730 resfriadas e 510 posições secas.
+                Fundada em <strong className="text-primary">2002</strong>, na cidade de{" "}
+                <strong className="text-primary">Coronel Fabriciano (MG)</strong>, a Tudobom
+                consolidou-se como uma das principais distribuidoras e importadoras de alimentos
+                do estado de Minas Gerais, oferecendo infraestrutura moderna, logística
+                eficiente e um portfólio completo de produtos para atender clientes em todo o
+                território nacional.
               </p>
               <p>
                 Atenta às demandas do mercado, a empresa agregou à sua prestação de serviços a
