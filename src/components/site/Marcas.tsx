@@ -49,6 +49,7 @@ import perdigaoLogo from "@/assets/perdigao.png.asset.json";
 import nestleLogo from "@/assets/nestle.png.asset.json";
 import maguaryLogo from "@/assets/maguary.png.asset.json";
 import dafrutaLogo from "@/assets/dafruta.png.asset.json";
+import panasonicLogo from "@/assets/panasonic.jpg.asset.json";
 
 const BRAND_LOGOS: Record<string, string> = {
   Sadia: sadiaLogo.url,
@@ -56,6 +57,7 @@ const BRAND_LOGOS: Record<string, string> = {
   Nestlé: nestleLogo.url,
   Maguary: maguaryLogo.url,
   daFruta: dafrutaLogo.url,
+  Panasonic: panasonicLogo.url,
 };
 
 function LogoTile({
