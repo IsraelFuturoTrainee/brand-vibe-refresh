@@ -44,6 +44,15 @@ const DISTRIBUICAO = [
 ];
 
 import ebomLogo from "@/assets/ebom-logo.png";
+import sadiaLogo from "@/assets/sadia.webp.asset.json";
+import perdigaoLogo from "@/assets/perdigao.png.asset.json";
+import nestleLogo from "@/assets/nestle.png.asset.json";
+
+const BRAND_LOGOS: Record<string, string> = {
+  Sadia: sadiaLogo.url,
+  Perdigão: perdigaoLogo.url,
+  Nestlé: nestleLogo.url,
+};
 
 function LogoTile({ label, featured = false }: { label: string; featured?: boolean }) {
   if (featured) {
@@ -57,11 +66,20 @@ function LogoTile({ label, featured = false }: { label: string; featured?: boole
       </div>
     );
   }
+  const logoUrl = BRAND_LOGOS[label];
   return (
     <div className="flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-card p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md">
-      <span className="font-display text-sm font-semibold text-muted-foreground">
-        {label}
-      </span>
+      {logoUrl ? (
+        <img
+          src={logoUrl}
+          alt={label}
+          className="max-h-full max-w-full object-contain"
+        />
+      ) : (
+        <span className="font-display text-sm font-semibold text-muted-foreground">
+          {label}
+        </span>
+      )}
     </div>
   );
 }
