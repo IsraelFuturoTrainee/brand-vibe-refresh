@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { Target, Eye, Heart, Sparkles } from "lucide-react";
-import { Logo } from "./Logo";
 
 const MVV = [
   {
@@ -39,90 +38,80 @@ export function Sobre() {
   return (
     <section id="sobre" className="py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start">
-          <div>
-            <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
-              Sobre Nós
-            </span>
-            <h2 className="mt-3 text-3xl font-extrabold text-primary sm:text-4xl lg:text-5xl">
-              A Empresa
-            </h2>
-            <div className="mt-6 space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              <p>
-                Fundada em <strong className="text-primary">2002</strong>, na cidade de{" "}
-                <strong className="text-primary">Coronel Fabriciano (MG)</strong>, a Tudobom
-                consolidou-se como uma das principais distribuidoras e importadora
-                <br />s de alimentos do estado de Minas Gerais, oferecendo infraestrutura moderna,
-                logística eficiente e um portfólio completo de produtos para atender clientes em
-                todo o território nacional.
+        <div className="mx-auto max-w-4xl text-center">
+          <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
+            Sobre Nós
+          </span>
+          <h2 className="mt-3 text-3xl font-extrabold text-primary sm:text-4xl lg:text-5xl">
+            A Empresa
+          </h2>
+          <div className="mt-6 space-y-5 text-left text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p>
+              Fundada em <strong className="text-primary">2002</strong>, na cidade de{" "}
+              <strong className="text-primary">Coronel Fabriciano (MG)</strong>, a Tudobom
+              consolidou-se como uma das principais distribuidoras e importadora
+              <br />s de alimentos do estado de Minas Gerais, oferecendo infraestrutura moderna,
+              logística eficiente e um portfólio completo de produtos para atender clientes em
+              todo o território nacional.
+            </p>
+            <div className="mt-8 space-y-6">
+              <p className="text-center font-semibold text-primary">
+                A empresa conta com duas unidades estratégicas de armazenagem, totalizando
+                3.555 posições paletes, distribuídas da seguinte forma:
               </p>
-              <div className="mt-8 space-y-6">
-                <p className="font-semibold text-primary">
-                  A empresa conta com duas unidades estratégicas de armazenagem, totalizando
-                  3.555 posições paletes, distribuídas da seguinte forma:
-                </p>
 
-                <div className="grid gap-8 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-border bg-card/50 p-6">
-                    <h4 className="mb-4 font-bold text-primary">Unidade Coronel Fabriciano</h4>
-                    <ul className="space-y-2 text-sm">
-                      <li>
-                        <strong className="text-primary">1.070</strong> posições paletes para
-                        produtos congelados;
-                      </li>
-                      <li>
-                        <strong className="text-primary">680</strong> posições paletes para
-                        produtos resfriados;
-                      </li>
-                      <li>
-                        <strong className="text-primary">460</strong> posições paletes para
-                        produtos secos.
-                      </li>
-                    </ul>
-                    <p className="mt-4 pt-4 border-t border-border font-bold text-primary">
-                      Total: 2.210 posições paletes.
-                    </p>
-                  </div>
+              <div className="grid gap-8 sm:grid-cols-2">
+                <div className="rounded-2xl border border-border bg-card/50 p-6 text-left">
+                  <h4 className="mb-4 text-center font-bold text-primary">Unidade Coronel Fabriciano</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li>
+                      <strong className="text-primary">1.070</strong> posições paletes para
+                      produtos congelados;
+                    </li>
+                    <li>
+                      <strong className="text-primary">680</strong> posições paletes para
+                      produtos resfriados;
+                    </li>
+                    <li>
+                      <strong className="text-primary">460</strong> posições paletes para
+                      produtos secos.
+                    </li>
+                  </ul>
+                  <p className="mt-4 border-t border-border pt-4 text-center font-bold text-primary">
+                    Total: 2.210 posições paletes.
+                  </p>
+                </div>
 
-                  <div className="rounded-2xl border border-border bg-card/50 p-6">
-                    <h4 className="mb-4 font-bold text-primary">Unidade Montes Claros (MOC)</h4>
-                    <ul className="space-y-2 text-sm">
-                      <li>
-                        <strong className="text-primary">730</strong> posições paletes para
-                        produtos congelados;
-                      </li>
-                      <li>
-                        <strong className="text-primary">380</strong> posições paletes para
-                        produtos resfriados;
-                      </li>
-                      <li>
-                        <strong className="text-primary">235</strong> posições paletes para
-                        produtos secos.
-                      </li>
-                    </ul>
-                    <p className="mt-4 pt-4 border-t border-border font-bold text-primary">
-                      Total: 1.345 posições paletes.
-                    </p>
-                  </div>
+                <div className="rounded-2xl border border-border bg-card/50 p-6 text-left">
+                  <h4 className="mb-4 text-center font-bold text-primary">Unidade Montes Claros (MOC)</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li>
+                      <strong className="text-primary">730</strong> posições paletes para
+                      produtos congelados;
+                    </li>
+                    <li>
+                      <strong className="text-primary">380</strong> posições paletes para
+                      produtos resfriados;
+                    </li>
+                    <li>
+                      <strong className="text-primary">235</strong> posições paletes para
+                      produtos secos.
+                    </li>
+                  </ul>
+                  <p className="mt-4 border-t border-border pt-4 text-center font-bold text-primary">
+                    Total: 1.345 posições paletes.
+                  </p>
                 </div>
               </div>
-              <p>
-                Alinhada a um projeto de crescimento, em 2019 a Tudobom lança sua marca própria, a{" "}
-                <span className="rounded-md bg-brand-lime/20 px-2 py-0.5 font-bold text-primary lowercase">
-                  ébom
-                </span>
-                , atuando nesse primeiro momento na linha de pescados e laticínios.
-              </p>
             </div>
-          </div>
-
-          <Card className="flex flex-col items-center justify-center gap-6 border-border bg-muted p-10 text-center">
-            <Logo className="h-28 w-auto sm:h-32" />
-            <p className="text-sm text-muted-foreground">
-              Uma empresa mineira orgulhosa das suas raízes, das suas pessoas e do trabalho que
-              realiza todos os dias.
+            <p>
+              Alinhada a um projeto de crescimento, em 2019 a Tudobom lança sua marca própria, a{" "}
+              <span className="rounded-md bg-brand-lime/20 px-2 py-0.5 font-bold text-primary lowercase">
+                ébom
+              </span>
+              , atuando nesse primeiro momento na linha de pescados e laticínios.
             </p>
-          </Card>
+          </div>
         </div>
 
         {/* Missão / Visão / Valores */}
