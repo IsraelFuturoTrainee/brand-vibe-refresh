@@ -1,27 +1,17 @@
-## Ajustar slide de imagem do Hero para tela cheia sem cortes e sem barras laterais
+O carrossel do Hero está muito alto: os slides de imagem usam `aspect-video` (16:9) e em telas comuns chegam a ocupar quase a altura inteira da viewport; os slides de texto usam `h-[70vh] min-h-[520px]`, que também fica muito grande. O usuário quer reduzir a altura total do carrossel para no máximo **640 px**, mantendo os banners visíveis e sem cortar.
 
-### Problema
-O banner de imagem (salmão chileno) está com `object-contain` + `max-h-[80vh]` + fundo azul. Isso mantém a imagem inteira, mas cria faixas azuis laterais em telas mais largas que 16:9. Se usarmos `object-cover` + altura fixa, a imagem é cortada nas bordas (onde estão o logo e o texto do banner).
+## O que será feito
 
-### Causa
-A imagem do banner é 16:9 (proporção padrão de folder). O container do slide está limitado a `max-h-[80vh]`, então a imagem não pode expandir livremente para preencher a largura. A única forma de preencher a largura toda sem cortar é fazer o container ter a mesma proporção da imagem.
+1. Ajustar o `Hero.tsx` para limitar a altura do carrossel em **640 px** em telas maiores, mantendo responsividade em mobile.
+2. Para os **slides de imagem**:
+   - Usar uma proporção mais compacta dentro do container de 640 px (ex: `max-h-[640px]` com `w-full` e `object-cover` centralizado).
+   - Garantir que o banner ainda preencha a largura sem faixas laterais e sem cortar excessivamente (usando `object-cover` com foco central).
+3. Para os **slides de texto**:
+   - Substituir `h-[70vh] min-h-[520px]` por `max-h-[640px] h-[55vh] min-h-[420px]` para ficar proporcional dentro do novo limite.
+   - Ajustar tamanhos de título/descrição se necessário para não ficar espremido.
+4. Posicionar as setas e bullets do carrossel de forma proporcional dentro do novo limite de altura.
+5. Verificar visualmente no preview que o Hero não ocupa mais a tela inteira e que as próximas seções (Sobre) começam a aparecer abaixo da dobra.
 
-### Solução
-No `src/components/site/Hero.tsx`, alterar o slide do tipo `image` para:
+## Resultado esperado
 
-1. Usar `aspect-video` no container do slide, garantindo proporção 16:9 idêntica à imagem.
-2. Fazer o container ocupar `100%` da largura disponível.
-3. Manter `object-cover` na imagem — agora a imagem e o container têm a mesma proporção, então não há corte nem barras laterais.
-4. Remover o `max-h-[80vh]` e o fundo azul de letterboxing do container de imagem.
-5. Deixar o autoplay e as setas funcionando como estão.
-
-### Resultado esperado
-- Em telas 16:9 (a maioria dos notebooks e monitores): o banner ocupa a largura total e a altura total do slide, sem cortes e sem faixas azuis.
-- Em telas muito largas (ultrawide 21:9): inevitavelmente sobra faixa lateral, pois a imagem 16:9 não pode preencher 21:9 sem distorcer ou cortar. Para evitar isso, seria necessário criar uma versão mais larga do banner ou aceitar leves barras nesse caso.
-
-### Arquivos que serão alterados
-- `src/components/site/Hero.tsx` — ajuste no container e na imagem do slide de imagem.
-
-### Não será alterado
-- Estrutura do carrossel (`src/components/ui/carousel.tsx`).
-- Slides de texto (continuam com altura fixa e overlay).
+Carrossel mais contido, com altura máxima de 640 px, mantendo o impacto visual e a legibilidade dos banners e textos. O usuário passará a ver parte da próxima seção assim que a página carregar, melhorando a navegação.
