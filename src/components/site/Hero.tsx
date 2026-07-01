@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/carousel";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import bannerSalmao from "@/assets/banner-salmao-chileno.png.asset.json";
 
-type Slide = {
+type TextSlide = {
+  kind: "text";
   eyebrow: string;
   title: string;
   highlight: string;
@@ -19,8 +21,17 @@ type Slide = {
   prompt: string;
 };
 
+type ImageSlide = {
+  kind: "image";
+  image: string;
+  alt: string;
+};
+
+type Slide = TextSlide | ImageSlide;
+
 const slides: Slide[] = [
   {
+    kind: "text",
     eyebrow: "Desde 2002 • Coronel Fabriciano / MG",
     title: "Distribuição e importação de alimentos com",
     highlight: "qualidade que faz diferença",
@@ -31,16 +42,12 @@ const slides: Slide[] = [
       "Modern refrigerated food distribution warehouse interior with pallets and forklifts, wide corporate photography, blue and green tones",
   },
   {
-    eyebrow: "Logística de ponta",
-    title: "Uma frota de 62 caminhões",
-    highlight: "monitorada em tempo real",
-    description:
-      "Entregas refrigeradas, congeladas e secas em todo o estado de Minas Gerais com rastreio completo.",
-    cta: { label: "Nossa estrutura", href: "#estrutura" },
-    prompt:
-      "White refrigerated delivery truck on Brazilian highway at sunrise, corporate logistics wide photography",
+    kind: "image",
+    image: bannerSalmao.url,
+    alt: "tudobom — Maior importadora de salmão fresco chileno de Minas Gerais",
   },
   {
+    kind: "text",
     eyebrow: "Importação",
     title: "Marcas do mundo inteiro",
     highlight: "na mesa do consumidor brasileiro",
@@ -51,6 +58,7 @@ const slides: Slide[] = [
       "Assorted premium imported food products on clean supermarket shelves, wide bright commercial photography",
   },
   {
+    kind: "text",
     eyebrow: "Marca própria",
     title: "ébom — o sabor",
     highlight: "que a gente confia",
@@ -85,39 +93,49 @@ export function Hero() {
           {slides.map((slide, i) => (
             <CarouselItem key={i} className="pl-0">
               <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
-                <div
-                  data-lov-image-placeholder
-                  data-prompt={slide.prompt}
-                  data-width="1920"
-                  data-height="1080"
-                  className="absolute inset-0 h-full w-full bg-brand-navy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-brand-navy/40" />
-                <div className="relative mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                  <div className="max-w-2xl text-white">
-                    <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-lime/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-lime ring-1 ring-brand-lime/30">
-                      {slide.eyebrow}
-                    </span>
-                    <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
-                      {slide.title}{" "}
-                      <span className="text-brand-lime">{slide.highlight}</span>.
-                    </h1>
-                    <p className="mt-6 max-w-xl text-lg text-white/85">
-                      {slide.description}
-                    </p>
-                    <div className="mt-8">
-                      <Button
-                        asChild
-                        size="lg"
-                        className="bg-brand-lime text-brand-lime-foreground font-bold hover:bg-brand-lime/90"
-                      >
-                        <a href={slide.cta.href}>
-                          {slide.cta.label} <ArrowRight className="ml-2 h-4 w-4" />
-                        </a>
-                      </Button>
+                {slide.kind === "image" ? (
+                  <img
+                    src={slide.image}
+                    alt={slide.alt}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : (
+                  <>
+                    <div
+                      data-lov-image-placeholder
+                      data-prompt={slide.prompt}
+                      data-width="1920"
+                      data-height="1080"
+                      className="absolute inset-0 h-full w-full bg-brand-navy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/80 to-brand-navy/40" />
+                    <div className="relative mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                      <div className="max-w-2xl text-white">
+                        <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-lime/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-lime ring-1 ring-brand-lime/30">
+                          {slide.eyebrow}
+                        </span>
+                        <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+                          {slide.title}{" "}
+                          <span className="text-brand-lime">{slide.highlight}</span>.
+                        </h1>
+                        <p className="mt-6 max-w-xl text-lg text-white/85">
+                          {slide.description}
+                        </p>
+                        <div className="mt-8">
+                          <Button
+                            asChild
+                            size="lg"
+                            className="bg-brand-lime text-brand-lime-foreground font-bold hover:bg-brand-lime/90"
+                          >
+                            <a href={slide.cta.href}>
+                              {slide.cta.label} <ArrowRight className="ml-2 h-4 w-4" />
+                            </a>
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
             </CarouselItem>
           ))}
