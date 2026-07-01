@@ -51,6 +51,9 @@ import maguaryLogo from "@/assets/maguary.png.asset.json";
 import dafrutaLogo from "@/assets/dafruta.png.asset.json";
 import panasonicLogo from "@/assets/panasonic.jpg.asset.json";
 import brfLogo from "@/assets/brf.png.asset.json";
+import naturalOneLogo from "@/assets/natural-one.png.asset.json";
+import salsarettiLogo from "@/assets/salsaretti.png.asset.json";
+import andorinhaLogo from "@/assets/andorinha.jpg.asset.json";
 
 const BRAND_LOGOS: Record<string, string> = {
   Sadia: sadiaLogo.url,
@@ -60,6 +63,9 @@ const BRAND_LOGOS: Record<string, string> = {
   Maguary: maguaryLogo.url,
   daFruta: dafrutaLogo.url,
   Panasonic: panasonicLogo.url,
+  "Natural One": naturalOneLogo.url,
+  Salsaretti: salsarettiLogo.url,
+  Andorinha: andorinhaLogo.url,
 };
 
 function LogoTile({
