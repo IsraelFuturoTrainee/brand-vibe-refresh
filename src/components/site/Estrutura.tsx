@@ -2,11 +2,13 @@ import { Card } from "@/components/ui/card";
 import { Truck, ShieldCheck, Route, ThermometerSnowflake } from "lucide-react";
 import equipeAcelera from "@/assets/equipe-acelera-tudobom-v2.png.asset.json";
 import caminhaoTb from "@/assets/caminhao-tb.png.asset.json";
+import sedeAdministrativa from "@/assets/sede-administrativa.jpg.asset.json";
 
 const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   {
     prompt: "Aerial view of a modern food distribution warehouse in Brazil with loading docks",
     label: "Sede administrativa",
+    image: sedeAdministrativa.url,
   },
   {
     prompt: "Interior of a large refrigerated warehouse with pallet racking full of food products",
