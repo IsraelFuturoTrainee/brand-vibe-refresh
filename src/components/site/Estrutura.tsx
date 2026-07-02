@@ -37,10 +37,6 @@ const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
     label: "Sede administrativa",
     image: sedeDrone.url,
   },
-  {
-    prompt: "Frozen food storage tunnel with ice on the walls and stacked products",
-    label: "Câmara de congelados",
-  },
 ];
 
 const LOG_HIGHLIGHTS = [
@@ -84,7 +80,7 @@ export function Estrutura() {
         </div>
 
         {/* Gallery */}
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid place-items-center gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {GALLERY.map((img, i) => {
             const hasImage = !!img.image;
             return (
