@@ -123,13 +123,36 @@ export function Estrutura() {
                 Somados por um objetivo comum
               </h3>
             </div>
-            <div className="space-y-4 text-white/85">
-              <p>
-                O trabalho em equipe é definido na Tudobom como a soma dos nossos esforços em prol de
-                um atendimento de alta performance. A boa convivência da equipe faz toda a diferença
-                no relacionamento com clientes e fornecedores.
-              </p>
-              <p>
+
+            {/* Colaboradores — no espaço retangular da direita */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              {TEAM_MEMBERS.map((member, i) => (
+                <div
+                  key={i}
+                  className="overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition hover:ring-brand-lime/60"
+                >
+                  <div className="aspect-[4/3] w-full overflow-hidden">
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      className="h-full w-full object-cover object-center"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Texto e citação abaixo das fotos */}
+          <div className="mt-8 grid gap-6 text-white/85 lg:grid-cols-2 lg:gap-10">
+            <p>
+              O trabalho em equipe é definido na Tudobom como a soma dos nossos esforços em prol de
+              um atendimento de alta performance. A boa convivência da equipe faz toda a diferença
+              no relacionamento com clientes e fornecedores.
+            </p>
+            <div>
+              <p className="mb-4">
                 A nossa harmonia resulta em maior rapidez e eficiência. Com metas e objetivos
                 compartilhados, tudo aqui funciona bem — e isso é fundamental para conseguirmos
                 ofertar produtos que fazem diferença no dia a dia das pessoas.
@@ -139,25 +162,6 @@ export function Estrutura() {
                 <footer className="mt-2 not-italic text-sm text-brand-lime">— Ayrton Senna</footer>
               </blockquote>
             </div>
-          </div>
-
-          {/* Colaboradores */}
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
-            {TEAM_MEMBERS.map((member, i) => (
-              <div
-                key={i}
-                className="overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition hover:ring-brand-lime/60"
-              >
-                <div className="aspect-[3/4] w-full overflow-hidden">
-                  <img
-                    src={member.photo}
-                    alt={member.name}
-                    className="h-full w-full object-cover object-center"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            ))}
           </div>
         </div>
 
