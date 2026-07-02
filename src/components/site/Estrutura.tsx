@@ -34,7 +34,8 @@ const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   },
   {
     prompt: "Dry storage area with tall pallet racks and food product boxes",
-    label: "Área de seco",
+    label: "Sede administrativa",
+    image: sedeDrone.url,
   },
   {
     prompt: "Frozen food storage tunnel with ice on the walls and stacked products",
