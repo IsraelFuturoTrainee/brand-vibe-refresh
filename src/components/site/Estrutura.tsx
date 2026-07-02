@@ -113,32 +113,54 @@ export function Estrutura() {
         </div>
 
         {/* Equipe */}
-        <div className="mt-16 grid gap-8 rounded-3xl bg-primary p-10 text-primary-foreground sm:p-14 lg:grid-cols-[1fr_1.2fr]">
-          <div>
-            <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
-              Equipe
-            </span>
-            <h3 className="mt-3 text-3xl font-extrabold sm:text-4xl">
-              Somados por um objetivo comum
-            </h3>
+        <div className="mt-16 rounded-3xl bg-primary p-10 text-primary-foreground sm:p-14">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
+            <div>
+              <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
+                Equipe
+              </span>
+              <h3 className="mt-3 text-3xl font-extrabold sm:text-4xl">
+                Somados por um objetivo comum
+              </h3>
+            </div>
+            <div className="space-y-4 text-white/85">
+              <p>
+                O trabalho em equipe é definido na Tudobom como a soma dos nossos esforços em prol de
+                um atendimento de alta performance. A boa convivência da equipe faz toda a diferença
+                no relacionamento com clientes e fornecedores.
+              </p>
+              <p>
+                A nossa harmonia resulta em maior rapidez e eficiência. Com metas e objetivos
+                compartilhados, tudo aqui funciona bem — e isso é fundamental para conseguirmos
+                ofertar produtos que fazem diferença no dia a dia das pessoas.
+              </p>
+              <blockquote className="rounded-xl border-l-4 border-brand-lime bg-white/5 px-5 py-4 italic text-white/90">
+                “Eu sou parte de uma equipe. Então, quando venço, não sou eu apenas quem vence.”
+                <footer className="mt-2 not-italic text-sm text-brand-lime">— Ayrton Senna</footer>
+              </blockquote>
+            </div>
           </div>
-          <div className="space-y-4 text-white/85">
-            <p>
-              O trabalho em equipe é definido na Tudobom como a soma dos nossos esforços em prol de
-              um atendimento de alta performance. A boa convivência da equipe faz toda a diferença
-              no relacionamento com clientes e fornecedores.
-            </p>
-            <p>
-              A nossa harmonia resulta em maior rapidez e eficiência. Com metas e objetivos
-              compartilhados, tudo aqui funciona bem — e isso é fundamental para conseguirmos
-              ofertar produtos que fazem diferença no dia a dia das pessoas.
-            </p>
-            <blockquote className="rounded-xl border-l-4 border-brand-lime bg-white/5 px-5 py-4 italic text-white/90">
-              “Eu sou parte de uma equipe. Então, quando venço, não sou eu apenas quem vence.”
-              <footer className="mt-2 not-italic text-sm text-brand-lime">— Ayrton Senna</footer>
-            </blockquote>
+
+          {/* Colaboradores */}
+          <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+            {TEAM_MEMBERS.map((member, i) => (
+              <div
+                key={i}
+                className="overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition hover:ring-brand-lime/60"
+              >
+                <div className="aspect-[3/4] w-full overflow-hidden">
+                  <img
+                    src={member.photo}
+                    alt={member.name}
+                    className="h-full w-full object-cover object-center"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+
 
         {/* Logística */}
         <div className="mt-16">
