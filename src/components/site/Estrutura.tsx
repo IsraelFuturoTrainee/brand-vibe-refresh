@@ -3,6 +3,7 @@ import { Truck, ShieldCheck, Route, ThermometerSnowflake } from "lucide-react";
 import equipeAcelera from "@/assets/equipe-acelera-tudobom-v2.png.asset.json";
 import caminhaoTb from "@/assets/caminhao-tb.png.asset.json";
 import sedeAdministrativa from "@/assets/sede-administrativa.jpg.asset.json";
+import sedeDrone from "@/assets/sede-drone.jpg.asset.json";
 import colab1 from "@/assets/colab-1.png.asset.json";
 import colab2 from "@/assets/colab-2.png.asset.json";
 import colab3 from "@/assets/colab-3.png.asset.json";
@@ -33,7 +34,8 @@ const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   },
   {
     prompt: "Dry storage area with tall pallet racks and food product boxes",
-    label: "Área de seco",
+    label: "Sede administrativa",
+    image: sedeDrone.url,
   },
   {
     prompt: "Frozen food storage tunnel with ice on the walls and stacked products",
