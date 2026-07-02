@@ -3,6 +3,17 @@ import { Truck, ShieldCheck, Route, ThermometerSnowflake } from "lucide-react";
 import equipeAcelera from "@/assets/equipe-acelera-tudobom-v2.png.asset.json";
 import caminhaoTb from "@/assets/caminhao-tb.png.asset.json";
 import sedeAdministrativa from "@/assets/sede-administrativa.jpg.asset.json";
+import colab1 from "@/assets/colab-1.png.asset.json";
+import colab2 from "@/assets/colab-2.png.asset.json";
+import colab3 from "@/assets/colab-3.png.asset.json";
+import colab4 from "@/assets/colab-4.png.asset.json";
+
+const TEAM_MEMBERS = [
+  { name: "Colaborador", photo: colab1.url },
+  { name: "Colaborador", photo: colab2.url },
+  { name: "Colaborador", photo: colab3.url },
+  { name: "Colaborador", photo: colab4.url },
+];
 
 const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
   {
