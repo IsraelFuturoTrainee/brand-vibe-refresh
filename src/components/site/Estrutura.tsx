@@ -37,10 +37,6 @@ const GALLERY: Array<{ prompt: string; label: string; image?: string }> = [
     label: "Sede administrativa",
     image: sedeDrone.url,
   },
-  {
-    prompt: "Frozen food storage tunnel with ice on the walls and stacked products",
-    label: "Câmara de congelados",
-  },
 ];
 
 const LOG_HIGHLIGHTS = [
