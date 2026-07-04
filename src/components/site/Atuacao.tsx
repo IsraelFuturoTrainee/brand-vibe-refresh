@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react";
-import mapaMG from "@/assets/mapa-mg-atuacao-v2.png.asset.json";
+import mapaMG from "@/assets/mapa-mg-atuacao-v3.png.asset.json";
 
 const REGIOES = [
   "Matriz - Vale do Aço",
