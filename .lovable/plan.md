@@ -1,15 +1,28 @@
-## Substituir placeholder "Armazém refrigerado" pela foto do evento ACELERA tudobom
+## Aba Transparência com modal de relatórios
 
-A foto enviada (evento ACELERA tudobom com toda a equipe) será colocada no card selecionado da galeria da seção Estrutura, no lugar do placeholder "Armazém refrigerado".
+Vou replicar o comportamento do site original: um item de menu "Transparência" no header que, ao ser clicado, abre um modal com o texto institucional e a lista de relatórios de transparência salarial para download.
 
 ### Passos
 
-1. Fazer upload da imagem via `lovable-assets` e gerar `src/assets/equipe-acelera-tudobom.jpg.asset.json` a partir de `/mnt/user-uploads/WhatsApp_Image_2026-07-01_at_19.28.47.jpeg`.
-2. Em `src/components/site/Estrutura.tsx`:
-   - Importar o novo asset.
-   - Adicionar um campo opcional `image` ao item "Armazém refrigerado" no array `GALLERY` (mantendo os demais como placeholders).
-   - Ajustar o `.map` para, quando `img.image` existir, renderizar um `<img>` com `object-cover` preenchendo o card e remover os atributos `data-lov-image-placeholder` daquele card. O `label` continua aparecendo como pill sobreposta no canto inferior.
+1. **Upload dos PDFs** (assim que você anexar os arquivos): subir cada relatório via `lovable-assets create` e gerar pointers em `src/assets/`:
+   - `relatorio-transparencia-2026-1sem.pdf.asset.json`
+   - `relatorio-transparencia-2025-2sem.pdf.asset.json`
+   - `relatorio-transparencia-2025-1sem.pdf.asset.json`
+
+2. **Novo componente `src/components/site/Transparencia.tsx`**:
+   - `Dialog` do shadcn (`@/components/ui/dialog`) já disponível no projeto.
+   - Recebe `open`/`onOpenChange` como props (controlado pelo Header).
+   - Título: "Portal da transparência".
+   - Texto institucional (mesmo do site original) sobre igualdade salarial.
+   - Bloco "Tudobom Comercial" com 3 cards (um por semestre), cada um com título do relatório + botão `baixar relatório` (link `<a href={asset.url} download target="_blank">`).
+   - Estilos alinhados ao design system (`bg-brand-navy`, `bg-brand-lime`, cards com `bg-muted`).
+
+3. **Atualizar `src/components/site/Header.tsx`**:
+   - Adicionar item `{ label: "Transparência", onClick: ... }` na navegação (desktop + menu mobile), no lugar de um `href`.
+   - Estado `transparenciaOpen` controla a exibição do modal.
+   - Renderizar `<Transparencia open={transparenciaOpen} onOpenChange={setTransparenciaOpen} />` dentro do header.
+   - Ajustar tipos do array `NAV` para suportar itens de âncora e itens de ação.
 
 ### Observação
 
-A foto retrata a equipe em um evento corporativo, não um armazém refrigerado. Se preferir, posso movê-la para a seção "Equipe" logo abaixo — mas por padrão vou seguir sua instrução e colocá-la exatamente no espaço selecionado.
+Não vou criar rota separada — como no site original, é apenas um modal disparado pelo menu. Assim que você mandar os PDFs, ligo os 3 botões de download; se preferir subir os arquivos depois, deixo os botões desabilitados temporariamente.
