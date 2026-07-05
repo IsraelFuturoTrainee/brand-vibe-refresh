@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-import appCss from "../styles.css?url";
+import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
