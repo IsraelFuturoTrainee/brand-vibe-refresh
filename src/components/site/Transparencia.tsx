@@ -1,6 +1,9 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import rel20261 from "@/assets/relatorio-2026-1sem.pdf.asset.json";
+import rel20252 from "@/assets/relatorio-2025-2sem.pdf.asset.json";
+import rel20251 from "@/assets/relatorio-2025-1sem.pdf.asset.json";
 
 type Relatorio = {
   titulo: string;
@@ -8,9 +11,9 @@ type Relatorio = {
 };
 
 const RELATORIOS: Relatorio[] = [
-  { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2026" },
-  { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 2º semestre 2025" },
-  { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2025" },
+  { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2026", url: rel20261.url },
+  { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 2º semestre 2025", url: rel20252.url },
+  { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2025", url: rel20251.url },
 ];
 
 interface TransparenciaProps {
