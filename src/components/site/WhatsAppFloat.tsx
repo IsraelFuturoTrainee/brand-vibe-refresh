@@ -1,7 +1,7 @@
 export function WhatsAppFloat() {
   return (
     <a
-      href="https://wa.me/553196149203?text=Olá,%20gostaria%20de%20fazer%20um%20orçamento"
+      href="https://api.whatsapp.com/send?phone=553196149203&text=Olá,%20gostaria%20de%20fazer%20um%20orçamento!"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp"
