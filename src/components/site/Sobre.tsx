@@ -36,7 +36,7 @@ const CULTURA = [
 
 export function Sobre() {
   return (
-    <section id="sobre" className="py-20 sm:py-28">
+    <section id="sobre" className="pt-8 pb-20 sm:pt-10 sm:pb-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
