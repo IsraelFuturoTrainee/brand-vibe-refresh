@@ -1,15 +1,13 @@
-type Importada = { country: string; code: string; segment: string };
+type Importada = { country: string; code: string };
 
 const IMPORTADAS: Importada[] = [
-  { country: "Argentina", code: "ar", segment: "Carnes Bovinas" },
-  { country: "Argentina", code: "ar", segment: "Pescados" },
-  { country: "Chile", code: "cl", segment: "Salmão do Chile" },
-  { country: "Chile", code: "cl", segment: "Casa Valduga e Terra Vega" },
-  { country: "Noruega", code: "no", segment: "Bacalhau Seco e Salgado da Noruega" },
-  { country: "Portugal", code: "pt", segment: "Azeite" },
-  { country: "Portugal", code: "pt", segment: "Bacalhau" },
-  { country: "Uruguai", code: "uy", segment: "Pescados" },
-  { country: "Uruguai", code: "uy", segment: "Carnes Bovinas" },
+  { country: "Argentina", code: "ar" },
+  { country: "Paraguai", code: "py" },
+  { country: "Uruguai", code: "uy" },
+  { country: "Chile", code: "cl" },
+  { country: "Noruega", code: "no" },
+  { country: "Portugal", code: "pt" },
+  { country: "Vietnã", code: "vn" },
 ];
 
 const DISTRIBUICAO = [
@@ -103,19 +101,16 @@ function LogoTile({
 
 function ImportadaCard({ item }: { item: Importada }) {
   return (
-    <div className="flex aspect-[3/2] flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-card p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+    <div className="flex aspect-[3/2] items-center justify-center rounded-2xl border border-border bg-card p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
       <img
         src={`https://flagcdn.com/w320/${item.code}.png`}
         srcSet={`https://flagcdn.com/w640/${item.code}.png 2x`}
-        width={96}
-        height={64}
+        width={160}
+        height={107}
         alt={`Bandeira ${item.country}`}
         loading="lazy"
-        className="h-12 w-auto rounded-sm object-contain shadow-sm sm:h-14"
+        className="h-16 w-auto rounded-sm object-contain shadow-sm sm:h-20"
       />
-      <span className="font-display text-xs font-semibold text-primary sm:text-sm">
-        {item.segment}
-      </span>
     </div>
   );
 }
@@ -139,8 +134,8 @@ export function Marcas() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {IMPORTADAS.map((item, i) => (
-            <ImportadaCard key={`${item.code}-${item.segment}-${i}`} item={item} />
+          {IMPORTADAS.map((item) => (
+            <ImportadaCard key={item.code} item={item} />
           ))}
         </div>
 
