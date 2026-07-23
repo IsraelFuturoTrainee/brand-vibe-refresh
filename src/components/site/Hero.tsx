@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/carousel";
 import { ArrowRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import bannerSadia from "@/assets/banner-sadia.png.asset.json";
+import bannerPerdigao from "@/assets/banner-perdigao.png.asset.json";
 import bannerAndorinha from "@/assets/banner-andorinha.png.asset.json";
 import bannerSalmao from "@/assets/banner-salmao-chileno-v3.png.asset.json";
 import bannerVinho from "@/assets/banner-luis-felipe-edwards-v3.png.asset.json";
