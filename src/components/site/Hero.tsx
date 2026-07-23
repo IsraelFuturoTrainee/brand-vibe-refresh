@@ -39,6 +39,16 @@ type Slide = TextSlide | ImageSlide;
 const slides: Slide[] = [
   {
     kind: "image",
+    image: bannerSadia.url,
+    alt: "Sadia — Seu dia pede Sadia",
+  },
+  {
+    kind: "image",
+    image: bannerPerdigao.url,
+    alt: "Perdigão — O sabor de comer juntos",
+  },
+  {
+    kind: "image",
     image: bannerAndorinha.url,
     alt: "Andorinha Portugal — Porque azeite não é tudo igual",
   },
