@@ -11,7 +11,7 @@ const REGIOES = [
   "Norte de Minas",
   "Oeste de Minas",
   "Sudeste de Minas",
-  "Microrregião de Uberlândia",
+  "Micro Região Uberlândia",
 ];
 
 export function Atuacao() {
