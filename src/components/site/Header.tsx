@@ -4,7 +4,6 @@ import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Transparencia } from "./Transparencia";
-import kitsNatalinosPdf from "@/assets/kits-natalinos-sadia-perdigao.pdf.asset.json";
 
 const NAV = [
   { href: "#sobre", label: "Sobre" },
@@ -23,14 +22,6 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-brand-navy text-brand-navy-foreground shadow-md">
-      <a
-        href={kitsNatalinosPdf.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block w-full bg-brand-lime text-brand-lime-foreground text-center text-xs sm:text-sm font-bold uppercase tracking-wider py-2 px-4 hover:brightness-95 transition"
-      >
-        🎄 Kits Natalinos Sadia · Perdigão — Clique para ver
-      </a>
       <div className="mx-auto flex h-24 max-w-7xl items-center justify-between gap-4 px-4 sm:h-28 md:h-32 sm:px-6 lg:px-8">
         <a href="#top" className="flex items-center gap-3 shrink-0">
           <Logo className="h-16 w-auto sm:h-20 md:h-24" />
