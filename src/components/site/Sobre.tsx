@@ -139,32 +139,6 @@ export function Sobre() {
           ))}
         </div>
 
-        {/* Cultura */}
-        <div className="mt-16 rounded-3xl bg-primary p-10 text-primary-foreground sm:p-14">
-          <div className="flex items-center gap-3">
-            <Sparkles className="h-6 w-6 text-brand-lime" />
-            <span className="text-sm font-bold uppercase tracking-widest text-brand-lime">
-              Nossa Cultura
-            </span>
-          </div>
-          <h3 className="mt-3 text-3xl font-extrabold sm:text-4xl">
-            Os princípios que guiam o nosso dia a dia
-          </h3>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {CULTURA.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-3 rounded-xl bg-white/5 px-4 py-3 ring-1 ring-white/10"
-              >
-                <span
-                  aria-hidden
-                  className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand-lime shadow-[0_0_12px] shadow-brand-lime"
-                />
-                <span className="text-sm font-medium text-white/90">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </section>
   );
