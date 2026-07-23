@@ -3,14 +3,15 @@ import mapaMG from "@/assets/mapa-mg-atuacao-v3.png.asset.json";
 
 const REGIOES = [
   "Matriz - Vale do Aço",
-  "Metropolitana de Belo Horizonte",
-  "Central Mineira",
+  "Região Metropolitana de BH",
   "Zona da Mata",
   "Vale do Rio Doce",
   "Vale do Mucuri",
   "Vale do Jequitinhonha",
   "Norte de Minas",
-  "Noroeste de Minas",
+  "Oeste de Minas",
+  "Sudeste de Minas",
+  "Microrregião de Uberlândia",
 ];
 
 export function Atuacao() {
