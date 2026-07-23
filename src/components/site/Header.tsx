@@ -4,6 +4,7 @@ import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Transparencia } from "./Transparencia";
+import kitsNatalinosPdf from "@/assets/kits-natalinos-sadia-perdigao.pdf.asset.json";
 
 const NAV = [
   { href: "#sobre", label: "Sobre" },
