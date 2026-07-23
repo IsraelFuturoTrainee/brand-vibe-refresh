@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Target, Eye, Heart, Sparkles } from "lucide-react";
+import { Target, Eye, Heart } from "lucide-react";
 
 const MVV = [
   {
@@ -19,20 +19,6 @@ const MVV = [
   },
 ];
 
-const CULTURA = [
-  "Amor no que faz",
-  "Atitude de dono",
-  "Informações certas geram bons negócios",
-  "Aprender pelo exemplo",
-  "Trabalhar para conquistar",
-  "Foco na tarefa",
-  "Cuidar dos detalhes",
-  "Executar com beleza",
-  "Trabalhar com gente boa",
-  "Motivar-se diariamente",
-  "Respeito pelas pessoas",
-  "Espírito de inovação",
-];
 
 export function Sobre() {
   return (
