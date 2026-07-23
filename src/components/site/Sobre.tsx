@@ -49,9 +49,12 @@ export function Sobre() {
             <p>
               Fundada em <strong className="text-primary">2002</strong>, na cidade de{" "}
               <strong className="text-primary">Coronel Fabriciano (MG)</strong>, a Tudobom
-              consolidou-se como uma das principais distribuidoras e importadoras de alimentos do
-              estado de Minas Gerais, oferecendo infraestrutura moderna, logística eficiente e um
-              portfólio completo de produtos para atender clientes em todo o território nacional.
+              consolidou-se como uma das principais distribuidoras e importadoras de alimentos,
+              atendendo padarias, supermercados, food service e o varejo tradicional com um
+              portfólio completo de produtos alimentícios congelados, resfriados e secos. Com
+              infraestrutura moderna, logística eficiente e um amplo mix de produtos, a empresa
+              oferece soluções de abastecimento com excelência para clientes em todo o território
+              nacional.
             </p>
             <div className="mt-8 space-y-6">
               <p className="text-center font-semibold text-primary">
