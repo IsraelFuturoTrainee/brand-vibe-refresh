@@ -1,0 +1,23 @@
+# .github/workflows/deploy.yml
+
+name: Deploy via FTP (Locaweb)
+
+on:
+  push:
+    branches: [ "main" ] # ou outra branch de deploy
+    paths:
+    - "html-version/**"
+  workflow_dispatch:      # permite rodar manualmente
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: FTP Deploy Locaweb
+      uses: locaweb/ftp-deploy@1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        user: ${{ secrets.USER }}
+        password: ${{ secrets.PASS }}
+        localDir: "html-version"
+        remoteDir: "public_html"
