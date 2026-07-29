@@ -114,6 +114,7 @@ function icon(string $name): string {
 }
 
 $flash = $_SESSION['flash'] ?? null;
+unset($_SESSION['flash']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
