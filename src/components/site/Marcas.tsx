@@ -28,7 +28,7 @@ const DISTRIBUICAO = [
 ];
 
 import ebomLogo from "@/assets/ebom-logo.png";
-import sadiaLogo from "@/assets/sadia.webp.asset.json";
+import sadiaLogo from "@/assets/sadia-logo.png.asset.json";
 import perdigaoLogo from "@/assets/perdigao.png.asset.json";
 import nestleLogo from "@/assets/aiogurteria-nestle.png.asset.json";
 import maguaryLogo from "@/assets/maguary.png.asset.json";
