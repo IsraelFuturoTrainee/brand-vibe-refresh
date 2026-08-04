@@ -41,7 +41,7 @@ $importadas = [
 ];
 
 $distribuicao = [
-  'Sadia'        => 'assets/sadia.webp',
+  'Sadia'        => 'assets/sadia-logo.png',
   'Perdigão'     => 'assets/perdigao.png',
   'Nestlé'       => 'assets/aiogurteria-nestle.png',
   'BRF'          => 'assets/brf.png',
