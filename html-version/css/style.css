@@ -1161,8 +1161,38 @@ ul {
 .socials {
   margin-top: 2rem;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
 }
+
+.whatsapp-contact {
+  flex: 1 1 220px;
+  min-height: 38px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #20d968;
+  color: #ffffff;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.whatsapp-contact:hover {
+  background: #19c85d;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.whatsapp-contact svg {
+  flex-shrink: 0;
+}
+
 
 .socials a {
   height: 2.75rem;
