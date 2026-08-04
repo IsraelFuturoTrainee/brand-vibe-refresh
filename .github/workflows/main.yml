@@ -10,7 +10,7 @@ on:
   workflow_dispatch:      # permite rodar manualmente
 jobs:
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: FTP Deploy Locaweb
@@ -20,4 +20,4 @@ jobs:
         user: ${{ secrets.USER }}
         password: ${{ secrets.PASS }}
         localDir: "html-version"
-        remoteDir: "web"
+        remoteDir: "web\"
