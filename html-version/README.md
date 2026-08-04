@@ -34,3 +34,18 @@ html-version/
   Para deixar tudo offline, baixe as imagens e troque as URLs no `index.php`.
 - A versão em React continua funcionando normalmente no restante do projeto — as duas
   versões são independentes.
+
+## Envio de e-mail (Fale Conosco)
+
+O formulário usa a biblioteca **PHPMailer** (já incluída em `lib/PHPMailer/`, não precisa de Composer).
+
+Edite `config.php`:
+
+- `mail_to` — e-mail que receberá as mensagens
+- `mail_from` — remetente (precisa ser uma conta do seu domínio)
+- `smtp_enabled` — `true` para enviar por SMTP autenticado (recomendado)
+- `smtp_host`, `smtp_port`, `smtp_secure`, `smtp_user`, `smtp_pass` — dados da conta de e-mail da hospedagem
+  - porta `587` com `'tls'` ou porta `465` com `'ssl'`
+- `smtp_debug` — deixe `true` temporariamente para gravar o log da conexão no error_log
+
+Se a hospedagem não permitir SMTP, coloque `'smtp_enabled' => false` para usar a função `mail()` do PHP.
