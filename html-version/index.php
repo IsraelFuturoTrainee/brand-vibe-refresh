@@ -124,6 +124,11 @@ unset($_SESSION['flash']);
   <title>Tudobom Comercial | Distribuição e Importação de Alimentos em MG</title>
   <meta name="description" content="Desde 2002 em Coronel Fabriciano (MG), a Tudobom distribui e importa alimentos congelados, resfriados e secos com logística própria em todo o estado de Minas Gerais." />
   <link rel="canonical" href="<?= e($config['site_url']) ?>" />
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Tudobom Comercial | Distribuição e Importação de Alimentos" />
   <meta property="og:description" content="Distribuidora e importadora de alimentos em Minas Gerais desde 2002. Frota própria multitemperatura e 3.555 posições paletes." />
