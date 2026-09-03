@@ -25,6 +25,7 @@ versão no formato `transparencia-AAAA-S`, por exemplo `transparencia-2026-1`.
 O artifact e a Release contêm:
 
 - `manifest.json`: datas, usuários, commit, branch, execução e URLs;
+- `ftp-files.json`: data/hora de modificação retornada pelo FTP para cada arquivo;
 - `site-snapshot.tar.gz`: backup completo do diretório publicado;
 - `production.html`: HTML capturado após o FTP;
 - `capture.json`: horário, URL, status e hash da captura;

@@ -9,6 +9,7 @@ import sys
 import tarfile
 import time
 from datetime import datetime, timezone
+from ftplib import FTP, all_errors as ftp_errors
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
@@ -83,7 +84,9 @@ def prepare():
     OUT.mkdir()
     files = sorted(p for p in SITE.rglob('*') if p.is_file())
     manifest['files'] = [
-        {'path': p.relative_to(SITE).as_posix(), 'bytes': p.stat().st_size, 'sha256': digest(p)}
+        {'path': p.relative_to(SITE).as_posix(), 'bytes': p.stat().st_size,
+         'modified_at_utc': datetime.fromtimestamp(p.stat().st_mtime, timezone.utc).isoformat(),
+         'sha256': digest(p)}
         for p in files
     ]
     (OUT / 'SHA256SUMS.txt').write_text(''.join(
@@ -150,6 +153,34 @@ def fetch(url):
         return response.status, response.headers.get('Content-Type', ''), response.read(), final
 
 
+def record_ftp_metadata():
+    manifest = read_json('manifest.json')
+    evidence = {'recorded_at': clock(), 'success': False, 'files': []}
+    try:
+        with FTP(os.environ['FTP_HOST'], timeout=30) as ftp:
+            ftp.login(os.environ['FTP_USER'], os.environ['FTP_PASSWORD'])
+            ftp.cwd(os.environ.get('FTP_REMOTE_DIR', 'web'))
+            for item in manifest['files']:
+                response = ftp.sendcmd('MDTM ' + item['path'])
+                match = re.fullmatch(r'213 (\d{14})(?:\.\d+)?', response.strip())
+                if not match:
+                    raise RuntimeError('Servidor FTP não retornou uma data de modificação válida')
+                modified = datetime.strptime(match.group(1), '%Y%m%d%H%M%S').replace(tzinfo=timezone.utc)
+                evidence['files'].append({
+                    'path': item['path'],
+                    'modified_at_utc': modified.isoformat(),
+                })
+                print(f"FTP {item['path']}: modificado em {modified.isoformat()}")
+        evidence['success'] = True
+    except (KeyError, *ftp_errors) as error:
+        evidence['error'] = type(error).__name__
+        raise RuntimeError('Não foi possível registrar as datas dos arquivos no FTP') from None
+    finally:
+        evidence['finished_at'] = clock()
+        write_json(OUT / 'ftp-files.json', evidence)
+    print(f"Datas de modificação registradas no FTP: {len(evidence['files'])} arquivos")
+
+
 def capture(attempts=3, delay=5):
     manifest = read_json('manifest.json')
     url = manifest['production_url']
@@ -189,11 +220,14 @@ def seal():
 def finish():
     manifest = read_json('manifest.json')
     capture_result = read_json('capture.json') if (OUT / 'capture.json').exists() else {'success': False}
+    ftp_metadata = read_json('ftp-files.json') if (OUT / 'ftp-files.json').exists() else {'success': False}
     success = (os.environ.get('FTP_OUTCOME') == 'success'
+               and os.environ.get('FTP_METADATA_OUTCOME') == 'success' and ftp_metadata['success']
                and os.environ.get('CAPTURE_OUTCOME') == 'success' and capture_result['success'])
     status = 'simulacao' if manifest['mode'] == 'simulacao' else 'registrado' if success else 'falhou'
     result = {'status': status, 'finished_at': clock(),
               'ftp_outcome': os.environ.get('FTP_OUTCOME', 'skipped'),
+              'ftp_metadata_outcome': os.environ.get('FTP_METADATA_OUTCOME', 'skipped'),
               'capture_outcome': os.environ.get('CAPTURE_OUTCOME', 'skipped'),
               'job_status_before_evidence': os.environ.get('JOB_STATUS', 'unknown'),
               'ftp_started_at': read_json('ftp-start.json') if (OUT / 'ftp-start.json').exists() else None,
@@ -210,7 +244,8 @@ def finish():
         f"- Preparação America/Sao_Paulo: {manifest['prepared_at']['america_sao_paulo']}\n"
         f"- Conclusão UTC: {result['finished_at']['utc']}\n"
         f"- Conclusão America/Sao_Paulo: {result['finished_at']['america_sao_paulo']}\n"
-        f"- FTP: {result['ftp_outcome']}; captura do HTML: {result['capture_outcome']}\n"
+        f"- FTP: {result['ftp_outcome']}; datas no FTP: {result['ftp_metadata_outcome']}; "
+        f"captura do HTML: {result['capture_outcome']}\n"
         f"- [Execução]({manifest['run_url']}) | [Produção]({manifest['production_url']})\n\n"
         "Baixe o artifact desta execução: snapshot do site, manifest, hashes, resultado e HTML publicado.\n\n"
         "Simulação não comprova publicação. Em modo oficial, confira também o job Release; este resumo não comprova sua criação.\n"
@@ -266,10 +301,10 @@ def release():
 
 def main():
     commands = {'prepare': prepare, 'preflight': preflight, 'capture': capture,
-                'finish': finish, 'release': release,
+                'ftp-metadata': record_ftp_metadata, 'finish': finish, 'release': release,
                 'start': lambda: write_json(OUT / 'ftp-start.json', clock())}
     if len(sys.argv) != 2 or sys.argv[1] not in commands:
-        raise ValueError('Use prepare, preflight, start, capture, finish ou release')
+        raise ValueError('Use prepare, preflight, start, ftp-metadata, capture, finish ou release')
     commands[sys.argv[1]]()
 
 

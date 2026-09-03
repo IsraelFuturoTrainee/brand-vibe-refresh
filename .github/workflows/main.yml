@@ -70,6 +70,15 @@ jobs:
           password: ${{ secrets.PASS }}
           localDir: html-version
           remoteDir: web
+      - name: Registrar datas de modificação no FTP
+        id: ftp_metadata
+        if: env.AUDIT_MODE != 'simulacao'
+        env:
+          FTP_HOST: ${{ secrets.HOST }}
+          FTP_USER: ${{ secrets.USER }}
+          FTP_PASSWORD: ${{ secrets.PASS }}
+          FTP_REMOTE_DIR: web
+        run: python3 scripts/publicacao.py ftp-metadata
       - name: Capturar HTML publicado
         id: capture
         if: env.AUDIT_MODE != 'simulacao'
@@ -78,6 +87,7 @@ jobs:
         if: always() && steps.prepare.outcome == 'success'
         env:
           FTP_OUTCOME: ${{ steps.ftp.outcome }}
+          FTP_METADATA_OUTCOME: ${{ steps.ftp_metadata.outcome }}
           CAPTURE_OUTCOME: ${{ steps.capture.outcome }}
           JOB_STATUS: ${{ job.status }}
         run: python3 scripts/publicacao.py finish

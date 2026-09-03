@@ -17,6 +17,26 @@ audit = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(audit)
 
 
+class FakeFTP:
+    def __init__(self, host, timeout):
+        pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        pass
+
+    def login(self, user, password):
+        pass
+
+    def cwd(self, path):
+        pass
+
+    def sendcmd(self, command):
+        return '213 20260903001011'
+
+
 class PublicationTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -31,6 +51,8 @@ class PublicationTests(unittest.TestCase):
             'GITHUB_RUN_ATTEMPT': '2', 'GITHUB_EVENT_NAME': 'workflow_dispatch',
             'GITHUB_REPOSITORY': 'owner/repo', 'AUDIT_ACTOR': 'autor',
             'AUDIT_TRIGGERING_ACTOR': 'executor', 'GITHUB_STEP_SUMMARY': 'summary.md',
+            'FTP_HOST': 'ftp.example.com', 'FTP_USER': 'user', 'FTP_PASSWORD': 'secret',
+            'FTP_REMOTE_DIR': 'web',
         }, clear=True)
         self.env.start()
         self.addCleanup(self.env.stop)
@@ -54,9 +76,12 @@ class PublicationTests(unittest.TestCase):
 
     def recorded(self):
         audit.prepare()
+        with patch.object(audit, 'FTP', FakeFTP):
+            audit.record_ftp_metadata()
         with patch.object(audit, 'fetch', side_effect=self.response):
             audit.capture(attempts=1, delay=0)
-        os.environ.update(FTP_OUTCOME='success', CAPTURE_OUTCOME='success')
+        os.environ.update(FTP_OUTCOME='success', FTP_METADATA_OUTCOME='success',
+                          CAPTURE_OUTCOME='success')
         audit.finish()
 
     def test_snapshot_metadata_hashes_and_hidden_files(self):
@@ -71,6 +96,7 @@ class PublicationTests(unittest.TestCase):
                          'https://github.com/owner/repo/releases/tag/transparencia-2026-1')
         self.assertNotIn('marker_path', manifest)
         self.assertFalse(Path('html-version/auditoria').exists())
+        self.assertIn('modified_at_utc', manifest['files'][0])
         with tarfile.open('evidence/site-snapshot.tar.gz') as archive:
             self.assertIn('html-version/.htaccess', archive.getnames())
             for entry in manifest['files']:
@@ -109,6 +135,15 @@ class PublicationTests(unittest.TestCase):
         capture = audit.read_json('capture.json')
         self.assertTrue(capture['success'])
         self.assertEqual([c['url'] for c in capture['attempts']], ['https://tudobom.com.br/'])
+
+    def test_ftp_metadata_records_server_modification_time_for_each_file(self):
+        audit.prepare()
+        with patch.object(audit, 'FTP', FakeFTP):
+            audit.record_ftp_metadata()
+        metadata = audit.read_json('ftp-files.json')
+        self.assertTrue(metadata['success'])
+        self.assertEqual(len(metadata['files']), len(audit.read_json('manifest.json')['files']))
+        self.assertEqual(metadata['files'][0]['modified_at_utc'], '2026-09-03T00:10:11+00:00')
 
     def test_http_error_retries_then_fails(self):
         audit.prepare()
