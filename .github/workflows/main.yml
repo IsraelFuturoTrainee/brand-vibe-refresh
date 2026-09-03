@@ -49,7 +49,7 @@ jobs:
           persist-credentials: false
       - name: Testar auditoria sem FTP
         run: python3 -m unittest discover -s tests -p test_publicacao.py -v
-      - name: Preparar manifest, hashes e snapshot
+      - name: Preparar registro e backup do site
         id: prepare
         run: python3 scripts/publicacao.py prepare
       - name: Conferir main e disponibilidade da tag
@@ -70,15 +70,15 @@ jobs:
           password: ${{ secrets.PASS }}
           localDir: html-version
           remoteDir: web
-      - name: Validar produção e capturar HTML
-        id: validate
+      - name: Capturar HTML publicado
+        id: capture
         if: env.AUDIT_MODE != 'simulacao'
-        run: python3 scripts/publicacao.py validate
+        run: python3 scripts/publicacao.py capture
       - name: Registrar resultado e resumo auditável
         if: always() && steps.prepare.outcome == 'success'
         env:
           FTP_OUTCOME: ${{ steps.ftp.outcome }}
-          VALIDATION_OUTCOME: ${{ steps.validate.outcome }}
+          CAPTURE_OUTCOME: ${{ steps.capture.outcome }}
           JOB_STATUS: ${{ job.status }}
         run: python3 scripts/publicacao.py finish
       - name: Guardar evidência operacional (inclusive falhas)

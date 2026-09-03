@@ -37,27 +37,26 @@ class PublicationTests(unittest.TestCase):
         self.stdout = contextlib.redirect_stdout(io.StringIO())
         self.stdout.__enter__()
         self.addCleanup(self.stdout.__exit__, None, None, None)
-        self.pdf = 'assets/relatorio-tudobom-1-semestre-2026.pdf'
         Path('html-version/assets').mkdir(parents=True)
         Path('html-version/css').mkdir()
-        Path('html-version/index.php').write_text('<?php /* ' + self.pdf + ' */ ?>')
+        Path('html-version/index.php').write_text('<html><body>site</body></html>')
         Path('html-version/config.php').write_text('<?php return [];')
         Path('html-version/.htaccess').write_text('Options -Indexes')
         Path('html-version/css/style.css').write_text('body {color: black}')
-        Path('html-version', self.pdf).write_bytes(b'%PDF-1.4\ntest')
+        Path('html-version/assets/sadia.webp').write_bytes(b'local asset')
 
     def response(self, url):
         base = 'https://tudobom.com.br/'
         if url == base:
-            body = f'<html><div id="transparencia"><a href="{self.pdf}">PDF</a></div></html>'.encode()
+            body = b'<html><body>HTML publicado</body></html>'
             return 200, 'text/html; charset=utf-8', body, url
-        return 200, 'application/octet-stream', Path('html-version', url.removeprefix(base)).read_bytes(), url
+        raise AssertionError(f'Arquivo fora da página inicial foi consultado: {url}')
 
-    def validated(self):
+    def recorded(self):
         audit.prepare()
         with patch.object(audit, 'fetch', side_effect=self.response):
-            audit.validate(attempts=1, delay=0)
-        os.environ.update(FTP_OUTCOME='success', VALIDATION_OUTCOME='success')
+            audit.capture(attempts=1, delay=0)
+        os.environ.update(FTP_OUTCOME='success', CAPTURE_OUTCOME='success')
         audit.finish()
 
     def test_snapshot_metadata_hashes_and_hidden_files(self):
@@ -68,18 +67,16 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(manifest['run_attempt'], '2')
         self.assertTrue(manifest['prepared_at']['utc'].endswith('+00:00'))
         self.assertTrue(manifest['prepared_at']['america_sao_paulo'].endswith('-03:00'))
+        self.assertEqual(manifest['release_url'],
+                         'https://github.com/owner/repo/releases/tag/transparencia-2026-1')
+        self.assertNotIn('marker_path', manifest)
+        self.assertFalse(Path('html-version/auditoria').exists())
         with tarfile.open('evidence/site-snapshot.tar.gz') as archive:
             self.assertIn('html-version/.htaccess', archive.getnames())
             for entry in manifest['files']:
                 body = archive.extractfile('html-version/' + entry['path']).read()
                 self.assertEqual(audit.hashlib.sha256(body).hexdigest(), entry['sha256'])
         self.assertEqual(audit.digest(Path('evidence/site-snapshot.tar.gz')), manifest['snapshot_sha256'])
-
-    def test_missing_semester_stops_before_snapshot(self):
-        os.environ['AUDIT_TAG'] = 'transparencia-2026-2'
-        with self.assertRaisesRegex(ValueError, 'Nenhum PDF'):
-            audit.prepare()
-        self.assertFalse(Path('evidence').exists())
 
     def test_invalid_tag(self):
         os.environ['AUDIT_TAG'] = 'transparencia-2026-3; echo unsafe'
@@ -105,44 +102,21 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(audit.read_json('result.json')['status'], 'simulacao')
         self.assertFalse(Path('evidence/production.html').exists())
 
-    def test_success_captures_html_and_never_requests_php_source(self):
-        self.validated()
+    def test_capture_saves_published_html_without_checking_site_files(self):
+        self.recorded()
         self.assertTrue(Path('evidence/production.html').exists())
-        self.assertEqual(audit.read_json('result.json')['status'], 'validado')
-        urls = [c['url'] for c in audit.read_json('validation.json')['checks']]
-        self.assertFalse(any('.php' in u for u in urls))
-
-    def test_hash_mismatch_fails_and_keeps_evidence(self):
-        audit.prepare()
-        Path('html-version', self.pdf).write_bytes(b'%PDF-1.4\nwrong version')
-        with patch.object(audit, 'fetch', side_effect=self.response):
-            with self.assertRaisesRegex(ValueError, 'Validação falhou'):
-                audit.validate(attempts=1, delay=0)
-        self.assertFalse(audit.read_json('validation.json')['success'])
-        os.environ.update(FTP_OUTCOME='success', VALIDATION_OUTCOME='failure')
-        audit.finish()
-        self.assertEqual(audit.read_json('result.json')['status'], 'falhou')
-        self.assertTrue(Path('evidence/EVIDENCE-SHA256SUMS.txt').exists())
-
-    def test_stale_marker_fails(self):
-        audit.prepare()
-        Path('html-version', audit.read_json('manifest.json')['marker_path']).write_text('{}')
-        with patch.object(audit, 'fetch', side_effect=self.response), self.assertRaises(ValueError):
-            audit.validate(attempts=1, delay=0)
-
-    def test_http_200_without_report_link_fails(self):
-        audit.prepare()
-        response = (200, 'text/html', b'<div id="transparencia"></div>', 'https://tudobom.com.br/')
-        with patch.object(audit, 'fetch', return_value=response), self.assertRaises(ValueError):
-            audit.validate(attempts=1, delay=0)
+        self.assertEqual(audit.read_json('result.json')['status'], 'registrado')
+        capture = audit.read_json('capture.json')
+        self.assertTrue(capture['success'])
+        self.assertEqual([c['url'] for c in capture['attempts']], ['https://tudobom.com.br/'])
 
     def test_http_error_retries_then_fails(self):
         audit.prepare()
         with patch.object(audit, 'fetch', side_effect=HTTPError('url', 503, 'error', {}, None)) as fetch:
             with self.assertRaises(ValueError):
-                audit.validate(attempts=2, delay=0)
+                audit.capture(attempts=2, delay=0)
             self.assertEqual(fetch.call_count, 2)
-        self.assertEqual(audit.read_json('validation.json')['checks'][0]['error'], 'HTTP 503')
+        self.assertEqual(audit.read_json('capture.json')['attempts'][0]['error'], 'HTTP 503')
 
     def test_preflight_rejects_advanced_main(self):
         audit.prepare()
@@ -159,7 +133,7 @@ class PublicationTests(unittest.TestCase):
                 audit.ensure_unused('transparencia-2026-1')
 
     def test_release_uploads_before_publishing_at_exact_commit(self):
-        self.validated()
+        self.recorded()
         calls = []
 
         def fake_api(path, method='GET', data=None, binary=None):
@@ -179,17 +153,17 @@ class PublicationTests(unittest.TestCase):
         self.assertTrue(creation[2]['draft'])
         self.assertEqual(calls[-1][1], 'PATCH')
         self.assertFalse(calls[-1][2]['draft'])
-        self.assertTrue(any(self.pdf.split('/')[-1] in c[0] for c in calls))
+        self.assertTrue(any('site-snapshot.tar.gz' in c[0] for c in calls))
 
     def test_tampered_evidence_blocks_release_without_api(self):
-        self.validated()
+        self.recorded()
         Path('evidence/production.html').write_text('changed')
         with patch.object(audit, 'api') as api, self.assertRaisesRegex(ValueError, 'Integridade'):
             audit.release()
         api.assert_not_called()
 
     def test_upload_failure_leaves_unpublished_draft(self):
-        self.validated()
+        self.recorded()
         calls = []
 
         def fake_api(path, method='GET', data=None, binary=None):
