@@ -5,14 +5,13 @@ import json
 import os
 from pathlib import Path
 import re
-import shutil
 import sys
 import tarfile
 import time
 from datetime import datetime, timezone
-from html.parser import HTMLParser
+from ftplib import FTP, all_errors as ftp_errors
 from urllib.error import HTTPError, URLError
-from urllib.parse import quote, urljoin, urlsplit
+from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
@@ -61,24 +60,6 @@ def prepare():
     for path in SITE.rglob('*'):
         if path.is_symlink() or any(c in str(path) for c in '\n\r\\'):
             raise ValueError('Snapshot não aceita symlinks ou nomes ambíguos')
-    pdfs = sorted(p.relative_to(SITE).as_posix() for p in SITE.rglob('*.pdf'))
-    reports = pdfs
-    if match:
-        year, semester = match.groups()
-        reports = [p for p in pdfs if re.fullmatch(
-            rf'relatorio-.+-{semester}-semestre-{year}\.pdf', Path(p).name)]
-        if not reports:
-            raise ValueError('Nenhum PDF corresponde ao semestre/ano solicitado')
-    source = (SITE / 'index.php').read_text(encoding='utf-8')
-    if not reports or any(p not in source for p in reports):
-        raise ValueError('Os PDFs do relatório devem estar referenciados em index.php')
-    for pdf in reports:
-        with (SITE / pdf).open('rb') as stream:
-            if stream.read(5) != b'%PDF-':
-                raise ValueError('Arquivo de relatório não tem assinatura PDF')
-    if len({Path(p).name for p in reports}) != len(reports):
-        raise ValueError('PDFs precisam de nomes distintos para anexos da Release')
-
     run_id = os.environ.get('GITHUB_RUN_ID', 'local')
     attempt = os.environ.get('GITHUB_RUN_ATTEMPT', '1')
     if not re.fullmatch(r'[A-Za-z0-9-]+', run_id + '-' + attempt):
@@ -99,20 +80,13 @@ def prepare():
         'run_url': f'https://github.com/{repo}/actions/runs/{run_id}/attempts/{attempt}',
         'production_url': base + '/',
         'release_url': f'https://github.com/{repo}/releases/tag/{tag}' if tag else None,
-        'report_paths': reports,
-        'report_urls': [base + '/' + quote(p) for p in reports],
     }
-    marker = SITE / 'auditoria' / f'deploy-{run_id}-{attempt}.json'
-    if marker.exists():
-        raise ValueError('Marcador desta execução já existe')
-    marker.parent.mkdir(exist_ok=True)
-    write_json(marker, manifest)
-    manifest['marker_path'] = marker.relative_to(SITE).as_posix()
-    manifest['marker_url'] = base + '/' + manifest['marker_path']
     OUT.mkdir()
     files = sorted(p for p in SITE.rglob('*') if p.is_file())
     manifest['files'] = [
-        {'path': p.relative_to(SITE).as_posix(), 'bytes': p.stat().st_size, 'sha256': digest(p)}
+        {'path': p.relative_to(SITE).as_posix(), 'bytes': p.stat().st_size,
+         'modified_at_utc': datetime.fromtimestamp(p.stat().st_mtime, timezone.utc).isoformat(),
+         'sha256': digest(p)}
         for p in files
     ]
     (OUT / 'SHA256SUMS.txt').write_text(''.join(
@@ -121,8 +95,6 @@ def prepare():
         archive.add(SITE, arcname='html-version')
     manifest['snapshot_sha256'] = digest(OUT / 'site-snapshot.tar.gz')
     write_json(OUT / 'manifest.json', manifest)
-    for report in reports:
-        shutil.copyfile(SITE / report, OUT / Path(report).name)
     print(f"Preparado: {mode}; commit {manifest['commit_sha']}; "
           f"actor {manifest['github_actor']}; triggering_actor {manifest['github_triggering_actor']}; "
           f"UTC {manifest['prepared_at']['utc']}; São Paulo {manifest['prepared_at']['america_sao_paulo']}")
@@ -169,16 +141,6 @@ def preflight():
     print('Preflight aprovado; ainda não houve FTP')
 
 
-class Links(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.hrefs = []
-
-    def handle_starttag(self, tag, attrs):
-        if tag == 'a':
-            self.hrefs.extend(value for key, value in attrs if key == 'href' and value)
-
-
 def fetch(url):
     request = Request(url, headers={'Cache-Control': 'no-cache', 'Accept-Encoding': 'identity',
                                     'User-Agent': 'Tudobom-Publication-Audit/1.0'})
@@ -191,59 +153,62 @@ def fetch(url):
         return response.status, response.headers.get('Content-Type', ''), response.read(), final
 
 
-def validate(attempts=3, delay=5):
+def record_ftp_metadata():
     manifest = read_json('manifest.json')
-    base = manifest['production_url']
-    evidence = {'started_at': clock(), 'success': False, 'checks': []}
-    # PHP é executado pelo servidor; seu código-fonte não deve ser baixado por HTTP.
-    public = [f for f in manifest['files'] if f['path'].startswith(('assets/', 'css/', 'js/'))
-              and Path(f['path']).suffix.lower() not in ('.php', '.md')]
-    marker = next(f for f in manifest['files'] if f['path'] == manifest['marker_path'])
-    targets = [('', None), (marker['path'], marker['sha256'])]
-    targets += [(f['path'], f['sha256']) for f in public]
+    evidence = {'recorded_at': clock(), 'success': False, 'files': []}
     try:
-        for path, expected in targets:
-            url = base + quote(path)
-            passed = False
-            for attempt in range(1, attempts + 1):
-                record = {'url': url, 'attempt': attempt, 'checked_at': clock(), 'success': False}
-                try:
-                    # A URL sem query também é testada: é a que RH e visitantes usarão.
-                    status, content_type, body, final = fetch(url)
-                    record.update(http_status=status, content_type=content_type, final_url=final,
-                                  sha256=hashlib.sha256(body).hexdigest(), expected_sha256=expected)
-                    if status != 200:
-                        raise ValueError(f'HTTP {status}, esperado 200')
-                    if expected and record['sha256'] != expected:
-                        raise ValueError('SHA-256 diferente do snapshot')
-                    if not path:
-                        (OUT / 'production.html').write_bytes(body)
-                        html = body.decode('utf-8')
-                        if 'text/html' not in content_type or 'id="transparencia"' not in html or '<?php' in html:
-                            raise ValueError('HTML não contém o portal esperado ou expõe PHP')
-                        links = Links()
-                        links.feed(html)
-                        linked_paths = {urlsplit(urljoin(final, h)).path for h in links.hrefs
-                                        if urlsplit(urljoin(final, h)).netloc == urlsplit(final).netloc}
-                        if any('/' + quote(p) not in linked_paths for p in manifest['report_paths']):
-                            raise ValueError('HTML público não contém links para os PDFs esperados')
-                    record['success'] = True
-                    passed = True
-                except (HTTPError, URLError, OSError, ValueError) as error:
-                    record['error'] = f'HTTP {error.code}' if isinstance(error, HTTPError) else str(error)
-                evidence['checks'].append(record)
-                write_json(OUT / 'validation.json', evidence)
-                if passed:
-                    break
-                if attempt < attempts:
-                    time.sleep(delay)
-            if not passed:
-                raise ValueError(f'Validação falhou: {url}')
+        with FTP(os.environ['FTP_HOST'], timeout=30) as ftp:
+            ftp.login(os.environ['FTP_USER'], os.environ['FTP_PASSWORD'])
+            ftp.cwd(os.environ.get('FTP_REMOTE_DIR', 'web'))
+            for item in manifest['files']:
+                response = ftp.sendcmd('MDTM ' + item['path'])
+                match = re.fullmatch(r'213 (\d{14})(?:\.\d+)?', response.strip())
+                if not match:
+                    raise RuntimeError('Servidor FTP não retornou uma data de modificação válida')
+                modified = datetime.strptime(match.group(1), '%Y%m%d%H%M%S').replace(tzinfo=timezone.utc)
+                evidence['files'].append({
+                    'path': item['path'],
+                    'modified_at_utc': modified.isoformat(),
+                })
+                print(f"FTP {item['path']}: modificado em {modified.isoformat()}")
         evidence['success'] = True
+    except (KeyError, *ftp_errors) as error:
+        evidence['error'] = type(error).__name__
+        raise RuntimeError('Não foi possível registrar as datas dos arquivos no FTP') from None
     finally:
         evidence['finished_at'] = clock()
-        write_json(OUT / 'validation.json', evidence)
-    print(f"Produção validada: {len(targets)} URLs; HTML e hashes registrados")
+        write_json(OUT / 'ftp-files.json', evidence)
+    print(f"Datas de modificação registradas no FTP: {len(evidence['files'])} arquivos")
+
+
+def capture(attempts=3, delay=5):
+    manifest = read_json('manifest.json')
+    url = manifest['production_url']
+    evidence = {'started_at': clock(), 'success': False, 'attempts': []}
+    try:
+        for attempt in range(1, attempts + 1):
+            record = {'url': url, 'attempt': attempt, 'captured_at': clock(), 'success': False}
+            try:
+                status, content_type, body, final = fetch(url)
+                record.update(http_status=status, content_type=content_type, final_url=final,
+                              bytes=len(body), sha256=hashlib.sha256(body).hexdigest())
+                (OUT / 'production.html').write_bytes(body)
+                record['success'] = True
+                evidence['success'] = True
+            except (HTTPError, URLError, OSError, ValueError) as error:
+                record['error'] = f'HTTP {error.code}' if isinstance(error, HTTPError) else str(error)
+            evidence['attempts'].append(record)
+            write_json(OUT / 'capture.json', evidence)
+            if evidence['success']:
+                break
+            if attempt < attempts:
+                time.sleep(delay)
+        if not evidence['success']:
+            raise ValueError(f'Não foi possível capturar o HTML publicado: {url}')
+    finally:
+        evidence['finished_at'] = clock()
+        write_json(OUT / 'capture.json', evidence)
+    print(f"HTML publicado capturado: {url}")
 
 
 def seal():
@@ -254,16 +219,19 @@ def seal():
 
 def finish():
     manifest = read_json('manifest.json')
-    valid = read_json('validation.json') if (OUT / 'validation.json').exists() else {'success': False}
+    capture_result = read_json('capture.json') if (OUT / 'capture.json').exists() else {'success': False}
+    ftp_metadata = read_json('ftp-files.json') if (OUT / 'ftp-files.json').exists() else {'success': False}
     success = (os.environ.get('FTP_OUTCOME') == 'success'
-               and os.environ.get('VALIDATION_OUTCOME') == 'success' and valid['success'])
-    status = 'simulacao' if manifest['mode'] == 'simulacao' else 'validado' if success else 'falhou'
+               and os.environ.get('FTP_METADATA_OUTCOME') == 'success' and ftp_metadata['success']
+               and os.environ.get('CAPTURE_OUTCOME') == 'success' and capture_result['success'])
+    status = 'simulacao' if manifest['mode'] == 'simulacao' else 'registrado' if success else 'falhou'
     result = {'status': status, 'finished_at': clock(),
               'ftp_outcome': os.environ.get('FTP_OUTCOME', 'skipped'),
-              'validation_outcome': os.environ.get('VALIDATION_OUTCOME', 'skipped'),
+              'ftp_metadata_outcome': os.environ.get('FTP_METADATA_OUTCOME', 'skipped'),
+              'capture_outcome': os.environ.get('CAPTURE_OUTCOME', 'skipped'),
               'job_status_before_evidence': os.environ.get('JOB_STATUS', 'unknown'),
               'ftp_started_at': read_json('ftp-start.json') if (OUT / 'ftp-start.json').exists() else None,
-              'validation_finished_at': valid.get('finished_at')}
+              'capture_finished_at': capture_result.get('finished_at')}
     write_json(OUT / 'result.json', result)
     summary = (
         f"## Publicação: {status}\n\n"
@@ -276,9 +244,10 @@ def finish():
         f"- Preparação America/Sao_Paulo: {manifest['prepared_at']['america_sao_paulo']}\n"
         f"- Conclusão UTC: {result['finished_at']['utc']}\n"
         f"- Conclusão America/Sao_Paulo: {result['finished_at']['america_sao_paulo']}\n"
-        f"- FTP: {result['ftp_outcome']}; validação: {result['validation_outcome']}\n"
+        f"- FTP: {result['ftp_outcome']}; datas no FTP: {result['ftp_metadata_outcome']}; "
+        f"captura do HTML: {result['capture_outcome']}\n"
         f"- [Execução]({manifest['run_url']}) | [Produção]({manifest['production_url']})\n\n"
-        "Baixe o artifact desta execução: snapshot, manifest, hashes, PDFs, resultado e validação/HTML quando disponíveis.\n\n"
+        "Baixe o artifact desta execução: snapshot do site, manifest, hashes, resultado e HTML publicado.\n\n"
         "Simulação não comprova publicação. Em modo oficial, confira também o job Release; este resumo não comprova sua criação.\n"
     )
     (OUT / 'summary.md').write_text(summary, encoding='utf-8')
@@ -300,25 +269,23 @@ def release():
             or manifest['commit_sha'] != os.environ['GITHUB_SHA']
             or manifest['run_id'] != os.environ['GITHUB_RUN_ID']
             or manifest['run_attempt'] != os.environ['GITHUB_RUN_ATTEMPT']
-            or read_json('result.json')['status'] != 'validado'
-            or not read_json('validation.json')['success']):
-        raise ValueError('Release exige publicação oficial validada desta execução/commit')
+            or read_json('result.json')['status'] != 'registrado'
+            or not read_json('capture.json')['success']):
+        raise ValueError('Release exige publicação oficial registrada desta execução/commit')
     for line in (OUT / 'EVIDENCE-SHA256SUMS.txt').read_text().splitlines():
         expected, name = line.split('  ', 1)
         path = OUT / name
         if not path.resolve().is_relative_to(OUT.resolve()) or digest(path) != expected:
             raise ValueError('Integridade da evidência inválida')
     ensure_unused(tag)
-    # Reserva o nome no commit validado, inclusive se a criação/upload do draft falhar.
+    # Reserva o nome no commit registrado, inclusive se a criação/upload do draft falhar.
     api('git/refs', 'POST', {'ref': f'refs/tags/{tag}', 'sha': manifest['commit_sha']})
     # target_commitish fixa o SHA exato; draft permite anexar tudo antes da imutabilidade.
     draft = api('releases', 'POST', {
         'tag_name': tag, 'target_commitish': manifest['commit_sha'], 'name': tag,
         'draft': True, 'prerelease': False,
         'body': (OUT / 'summary.md').read_text(encoding='utf-8') +
-                '\n\nPDFs públicos: ' + ', '.join(manifest['report_urls']) +
-                '\n\nHTML capturado e validation.json comprovam as verificações naquela execução; '
-                'não atestam disponibilidade contínua.\n',
+                '\n\nEsta Release preserva o snapshot do site e o HTML capturado naquela publicação.\n',
     })
     for path in sorted(p for p in OUT.rglob('*') if p.is_file()):
         api(f"releases/{draft['id']}/assets?name={quote(path.name)}", 'POST', binary=path.read_bytes())
@@ -333,11 +300,11 @@ def release():
 
 
 def main():
-    commands = {'prepare': prepare, 'preflight': preflight, 'validate': validate,
-                'finish': finish, 'release': release,
+    commands = {'prepare': prepare, 'preflight': preflight, 'capture': capture,
+                'ftp-metadata': record_ftp_metadata, 'finish': finish, 'release': release,
                 'start': lambda: write_json(OUT / 'ftp-start.json', clock())}
     if len(sys.argv) != 2 or sys.argv[1] not in commands:
-        raise ValueError('Use prepare, preflight, start, validate, finish ou release')
+        raise ValueError('Use prepare, preflight, start, ftp-metadata, capture, finish ou release')
     commands[sys.argv[1]]()
 
 
