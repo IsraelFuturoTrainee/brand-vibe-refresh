@@ -1,23 +1,112 @@
-# .github/workflows/deploy.yml
-
 name: Deploy via FTP (Locaweb)
 
 on:
   push:
-    branches: [ "main" ] # ou outra branch de deploy
+    branches: [main]
+    paths: ['html-version/**']
+  pull_request:
     paths:
-    - "html-version/**"
-  workflow_dispatch:      # permite rodar manualmente
+      - 'html-version/**'
+      - '.github/workflows/main.yml'
+      - 'scripts/publicacao.py'
+      - 'tests/test_publicacao.py'
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: 'simulacao não usa FTP nem cria tag/Release'
+        type: choice
+        options: [simulacao, normal, oficial]
+        default: simulacao
+        required: true
+      publicacao:
+        description: 'Somente oficial (ou sua simulação): transparencia-AAAA-S'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+# Uma publicação por vez, inclusive a criação da Release. Não interrompe FTP ativo.
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('auditoria-pr-{0}', github.event.number) || 'locaweb-producao' }}
+  cancel-in-progress: false
+
+env:
+  AUDIT_MODE: ${{ github.event_name == 'push' && 'normal' || github.event_name == 'pull_request' && 'simulacao' || inputs.modo }}
+  AUDIT_TAG: ${{ inputs.publicacao }}
+  AUDIT_ACTOR: ${{ github.actor }}
+  AUDIT_TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+  AUDIT_BRANCH: ${{ github.ref_name }}
+  PRODUCTION_URL: https://tudobom.com.br
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-    - uses: actions/checkout@v4
-    - name: FTP Deploy Locaweb
-      uses: locaweb/ftp-deploy@1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        user: ${{ secrets.USER }}
-        password: ${{ secrets.PASS }}
-        localDir: "html-version"
-        remoteDir: "web"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Testar auditoria sem FTP
+        run: python3 -m unittest discover -s tests -p test_publicacao.py -v
+      - name: Preparar manifest, hashes e snapshot
+        id: prepare
+        run: python3 scripts/publicacao.py prepare
+      - name: Conferir main e disponibilidade da tag
+        if: env.AUDIT_MODE != 'simulacao'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/publicacao.py preflight
+      - name: Registrar início do FTP
+        if: env.AUDIT_MODE != 'simulacao'
+        run: python3 scripts/publicacao.py start
+      - name: FTP Deploy Locaweb
+        id: ftp
+        if: env.AUDIT_MODE != 'simulacao'
+        uses: locaweb/ftp-deploy@a69dfe5b26c55007658dce15a17917250282f9cc # mesma versão 1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          password: ${{ secrets.PASS }}
+          localDir: html-version
+          remoteDir: web
+      - name: Validar produção e capturar HTML
+        id: validate
+        if: env.AUDIT_MODE != 'simulacao'
+        run: python3 scripts/publicacao.py validate
+      - name: Registrar resultado e resumo auditável
+        if: always() && steps.prepare.outcome == 'success'
+        env:
+          FTP_OUTCOME: ${{ steps.ftp.outcome }}
+          VALIDATION_OUTCOME: ${{ steps.validate.outcome }}
+          JOB_STATUS: ${{ job.status }}
+        run: python3 scripts/publicacao.py finish
+      - name: Guardar evidência operacional (inclusive falhas)
+        if: always() && steps.prepare.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: publicacao-${{ github.run_id }}-${{ github.run_attempt }}
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 90
+
+  release:
+    needs: deploy
+    if: github.event_name == 'workflow_dispatch' && inputs.modo == 'oficial' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: publicacao-${{ github.run_id }}-${{ github.run_attempt }}
+          path: evidence/
+      - name: Criar tag e Release oficial com os anexos verificados
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/publicacao.py release
