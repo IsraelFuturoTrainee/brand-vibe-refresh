@@ -4,6 +4,8 @@ import { Download } from "lucide-react";
 import rel20261 from "@/assets/relatorio-2026-1sem.pdf.asset.json";
 import rel20252 from "@/assets/relatorio-2025-2sem.pdf.asset.json";
 import rel20251 from "@/assets/relatorio-2025-1sem.pdf.asset.json";
+import relFreitas20261 from "@/assets/relatorio-freitas-1-semestre-2026.pdf";
+import relFreitas20252 from "@/assets/relatorio-freitas-2-semestre-2025.pdf";
 
 type Relatorio = {
   titulo: string;
@@ -14,6 +16,11 @@ const RELATORIOS: Relatorio[] = [
   { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2026", url: rel20261.url },
   { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 2º semestre 2025", url: rel20252.url },
   { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2025", url: rel20251.url },
+];
+
+const RELATORIOS_FREITAS: Relatorio[] = [
+  { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2026", url: relFreitas20261 },
+  { titulo: "Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 2º semestre 2025", url: relFreitas20252 },
 ];
 
 interface TransparenciaProps {
@@ -69,6 +76,25 @@ export function Transparencia({ open, onOpenChange }: TransparenciaProps) {
                       em breve
                     </Button>
                   )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-6 rounded-lg bg-muted p-5">
+          <h3 className="mb-4 text-lg font-bold text-brand-navy">Freitas</h3>
+          <ul className="space-y-4 divide-y divide-border">
+            {RELATORIOS_FREITAS.map((rel, i) => (
+              <li key={i} className={i > 0 ? "pt-4" : ""}>
+                <p className="text-sm font-medium text-foreground">{rel.titulo}</p>
+                <div className="mt-3">
+                  <Button asChild size="sm" className="bg-brand-navy text-white hover:bg-brand-navy/90">
+                    <a href={rel.url} target="_blank" rel="noopener noreferrer" download>
+                      <Download className="mr-2 h-4 w-4" />
+                      baixar relatório
+                    </a>
+                  </Button>
                 </div>
               </li>
             ))}

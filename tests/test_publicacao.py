@@ -104,6 +104,23 @@ $reports = [
         with self.assertRaisesRegex(ValueError, 'inválido'):
             publication.prepare()
 
+    def test_site_transparency_registers_the_freitas_reports_for_publication(self):
+        project_root = Path(__file__).resolve().parents[1]
+        Path('html-version/index.php').write_bytes(
+            (project_root / 'html-version/index.php').read_bytes())
+
+        publication.prepare()
+
+        context = json.loads(
+            Path('historico-publicacoes/123/contexto.json').read_text(encoding='utf-8'))
+        self.assertEqual(context['public_pdf_urls'], [
+            'https://tudobom.com.br/assets/relatorio-tudobom-1-semestre-2026.pdf',
+            'https://tudobom.com.br/assets/relatorio-tudobom-2-semestre-2025.pdf',
+            'https://tudobom.com.br/assets/relatorio-tudobom-1-semestre-2025.pdf',
+            'https://tudobom.com.br/assets/relatorio-freitas-1-semestre-2026.pdf',
+            'https://tudobom.com.br/assets/relatorio-freitas-2-semestre-2025.pdf',
+        ])
+
 
 if __name__ == '__main__':
     unittest.main()
