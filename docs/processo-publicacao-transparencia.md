@@ -19,3 +19,7 @@ histórico não dispara outro deploy, pois o gatilho observa apenas `html-versio
 
 Logs nativos de criação e modificação de arquivos no FTP dependem da Locaweb e são
 externos a este fluxo.
+
+Para o procedimento operacional de preenchimento do relatório do RH, incluindo
+os campos de `registro.json` e o modelo de cinco critérios, consulte a seção
+"Como preparar o relatório de publicação para o RH" no `README.md`.
