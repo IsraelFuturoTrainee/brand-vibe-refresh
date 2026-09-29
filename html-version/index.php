@@ -78,12 +78,14 @@ $mvv = [
 ];
 
 $relatorios = [
+  ['titulo' => 'Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 2º semestre 2026', 'url' => 'assets/relatorio-tudobom-2-semestre-2026.pdf'],
   ['titulo' => 'Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2026', 'url' => 'assets/relatorio-tudobom-1-semestre-2026.pdf'],
   ['titulo' => 'Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 2º semestre 2025', 'url' => 'assets/relatorio-tudobom-2-semestre-2025.pdf'],
   ['titulo' => 'Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2025', 'url' => 'assets/relatorio-tudobom-1-semestre-2025.pdf'],
 ];
 
 $relatoriosFreitas = [
+  ['titulo' => 'Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 2º semestre 2026', 'url' => 'assets/relatorio-freitas-2-semestre-2026.pdf'],
   ['titulo' => 'Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 1º semestre 2026', 'url' => 'assets/relatorio-freitas-1-semestre-2026.pdf'],
   ['titulo' => 'Relatório de Transparência e Igualdade Salarial de Mulheres e Homens - 2º semestre 2025', 'url' => 'assets/relatorio-freitas-2-semestre-2025.pdf'],
 ];
