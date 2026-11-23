@@ -13,6 +13,8 @@ const NAV = [
   { href: "#contato", label: "Contato" },
 ];
 
+const VAGAS_URL = "https://tudobom.vagas.solides.com.br/";
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [transparenciaOpen, setTransparenciaOpen] = useState(false);
@@ -27,7 +29,7 @@ export function Header() {
           <Logo className="h-16 w-auto sm:h-20 md:h-24" />
         </a>
 
-        <nav className="hidden items-center gap-3 md:flex lg:gap-8">
+        <nav className="hidden items-center gap-2 md:flex lg:gap-3 xl:gap-8">
           {NAV.map((item) => (
             <a key={item.href} href={item.href} className={linkClass}>
               {item.label}
@@ -40,9 +42,17 @@ export function Header() {
           >
             Transparência
           </button>
+          <a
+            href={VAGAS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={linkClass}
+          >
+            Trabalhe Conosco
+          </a>
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Button
             asChild
             size="sm"
@@ -81,6 +91,15 @@ export function Header() {
               >
                 Transparência
               </button>
+              <a
+                href={VAGAS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="rounded-md px-3 py-3 text-base font-semibold text-white/90 transition-colors hover:bg-white/10 hover:text-brand-lime"
+              >
+                Trabalhe Conosco
+              </a>
               <Button
                 asChild
                 className="mt-4 bg-brand-lime text-brand-lime-foreground font-bold hover:bg-brand-lime/90"

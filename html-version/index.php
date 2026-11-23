@@ -157,6 +157,7 @@ unset($_SESSION['flash']);
         <a href="<?= e($href) ?>"><?= e($label) ?></a>
       <?php endforeach; ?>
       <button type="button" data-open-modal="transparencia">Transparência</button>
+      <a href="https://tudobom.vagas.solides.com.br/" target="_blank" rel="noopener noreferrer">Trabalhe Conosco</a>
     </nav>
 
     <div class="header__cta">
@@ -180,6 +181,7 @@ unset($_SESSION['flash']);
         <a href="<?= e($href) ?>" data-close-drawer><?= e($label) ?></a>
       <?php endforeach; ?>
       <button type="button" data-open-modal="transparencia" data-close-drawer>Transparência</button>
+      <a href="https://tudobom.vagas.solides.com.br/" target="_blank" rel="noopener noreferrer">Trabalhe Conosco</a>
       <a class="btn btn--lime" style="margin-top:1rem" href="#contato" data-close-drawer>Fale Conosco</a>
     </nav>
   </div>
